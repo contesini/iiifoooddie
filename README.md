@@ -13,9 +13,14 @@ Be sure to take out other referenceds in the `package.json` file to this before 
 
 ---
 
-# [Project Title]
+# Iiifoooddie
+Um prototipo de sdk para a api do ifood escrito em typescript e de código aberto e de comunidade sinta se livra para usar, melhorar, testar, documentar, codar 🥳🥳🥳.
+* Não é apenas mais um modulo npm entre os milhões que são criados todos os dias, como todos já estamos acostumados alguns `pouco uteis` outros `nem tanto assim`...
+mas espero que esse projeto fique na terceira categoria dos `realmentes uteis`.
 
-[A short project description goes here. Up to a paragraph but no more.]
+* Se você precisa integrar com ifood esse projeto pode ser um otimo bootrasp para você ;).
+
+* Toda contribuição é bem vinda 😁😁😁
 
 [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
 [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
@@ -23,7 +28,7 @@ Be sure to take out other referenceds in the `package.json` file to this before 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
 
 ### Prerequisites
 

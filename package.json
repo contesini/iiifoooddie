@@ -6,7 +6,8 @@
   "module": "./lib/main.es.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "start": "node .",
+    "copy-tracing": "cp ./tracing.js ./lib/",
+    "start": "yarn run copy-tracing && node -r ./lib/tracing.js ./lib/index.js",
     "build": "tsc",
     "bundle": "npm run build; rollup --config rollup.config.js",
     "clean": "rm -rf build/* dist/* docs/* lib/*",
@@ -45,7 +46,16 @@
     "url": "https://github.com/srepollock/typescript-bootstrap/issues"
   },
   "homepage": "http://spollock.ca/typescript-bootstrap/",
-  "dependencies": {},
+  "dependencies": {
+    "@opentelemetry/api": "^1.0.4",
+    "@opentelemetry/auto-instrumentations-node": "^0.28.0",
+    "@opentelemetry/sdk-node": "^0.27.0",
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
+    "ts-node": "^10.7.0",
+    "tslib": "~2.3.1",
+    "winston": "^3.7.2"
+  },
   "devDependencies": {
     "@joseph184/rollup-plugin-node-builtins": "^2.1.4",
     "@types/jest": "^26.0.4",
