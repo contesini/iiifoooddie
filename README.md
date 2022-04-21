@@ -1,18 +1,3 @@
-# TypeScript Bootstrap
-
-A TypeScript bootstrap project: to start your project out without hassle. This project aims to give you the best tools you need to start your project on the right foot. When forking this project to start out your own unique idea, take some time to fill out the information here in this README. Remember, just like this README, your README.md file is the first contact to the end user. Most people don't read any more documentation (although I'm sure you'll have lots!) and really they should be able to get started with no more information than from here. Give them everything they need to get started on their own wonderful project.  
-The following is simply a template of information to give. It is not final, it is not correct, it is simply a guidline of best practices.
-
-Now remove this part and fill out the rest with your unique project information. Everything below can be removed, but some can be updated with your project specific information of course.
-
-Be sure to take out other referenceds in the `package.json` file to this before your first commit.
-*Remember to give credit where it is due.*
-
-> Created by [Spencer Pollock](@srepollock)
-> [Contact me](http://spollock.ca)
-
----
-
 # Iiifoooddie
 Um prototipo de sdk para a api do ifood escrito em typescript e de código aberto e de comunidade sinta se livra para usar, melhorar, testar, documentar, codar 🥳🥳🥳.
 * Não é apenas mais um modulo npm entre os milhões que são criados todos os dias, como todos já estamos acostumados alguns `pouco uteis` outros `nem tanto assim`...
@@ -27,7 +12,6 @@ mas espero que esse projeto fique na terceira categoria dos `realmentes uteis`.
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ## Getting Started
-
 
 
 ### Prerequisites
@@ -79,6 +63,9 @@ Packages can be found at both the NPM Repo and GitHub repo.
 * [RollupJS](https://www.rollupjs.org)
 * [Jest](https://jest.io)
 * [TypeScript](https://typescriptlang.org)
+* [Axios](https://github.com/axios/axios)
+* [Winston](https://github.com/winstonjs/winston)
+* [Dotenv](https://github.com/motdotla/dotenv)
 
 ## Contributing
 
@@ -86,13 +73,13 @@ Please read CONTRIBUTING.md for details on our code of conduct, and the process 
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/contesini/iiifoooddie/tags). 
 
 ## Authors
 
-* **YOU** - [your profile](https://github.com/yourprofile)
+* **Allan Contesini** - [your profile](https://github.com/contesini)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/contesini/iiifoooddie/contributors) who participated in this project.
 
 ## License
 
@@ -100,11 +87,10 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-* **Billie Thompson** -  *Provided README Template* - [PurpleBooth](https://github.com/PurpleBooth)
+* [Ifood](https://github.com/orgs/ifood/repositories)
+* **Spencer Pollock** -  *Provided typescript bootstrap* - [Typescript-bootstrap
+](https://github.com/srepollock/typescript-bootstrap)
 
 
-> Created by [Spencer Pollock](@srepollock).
-> Contact me <spencer at spollock dot ca>
+> Created by [Allan Contesini](@contesini).
+> Contact me <spencer at allan.contesini@protonmail.com.br>
