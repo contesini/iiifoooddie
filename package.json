@@ -6,8 +6,7 @@
   "module": "./lib/main.es.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "copy-tracing": "cp ./tracing.js ./lib/",
-    "start": "yarn run copy-tracing && node -r ./lib/tracing.js ./lib/index.js",
+    "start": "node .",
     "build": "tsc",
     "bundle": "npm run build; rollup --config rollup.config.js",
     "clean": "rm -rf build/* dist/* docs/* lib/*",

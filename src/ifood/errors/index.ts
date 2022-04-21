@@ -1,3 +1,10 @@
+export class IfoodInvalidClientToken extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = "IfoodInvalidClientToken"
+    }
+}
+
 export class IfoodInvalidClientIdError extends Error {
     constructor(message: string) {
         super(message)
@@ -12,10 +19,10 @@ export class IfoodInvalidClientSecretError extends Error {
     }
 }
 
-export class IfoodAuthFailedError extends Error {
+export class IfoodAuthForbidden extends Error {
     constructor(message: string) {
         super(message)
-        this.name = "IfoodAuthFailedError"
+        this.name = "IfoodAuthForbidden"
     }
 }
 
@@ -72,6 +79,13 @@ export class IfoodGetOrderError extends Error {
     constructor(message: string) {
         super(message)
         this.name = "IfoodGetOrderError"
+    }
+}
+
+export class IfoodGetReviewError extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = "IfoodGetReviewError"
     }
 }
 

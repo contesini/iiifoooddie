@@ -1,21 +1,34 @@
-const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, label, printf } = format;
+const { createLogger, format, transports } = require('winston')
+const { combine, timestamp, label, printf } = format
 
-const myFormat = printf(({ level, message, label, timestamp }) => {
-  return `${timestamp} [${label}] ${level}: ${message}`;
-});
+const myFormat = printf(({ level, message, label, timestamp }: any) => {
+  return `${timestamp} [${label}] ${level}: ${message}`
+})
 
-const logger = createLogger({
-  format: combine(
-    label({ label: 'right meow!' }),
-    timestamp(),
-    myFormat
-  ),
-  transports: [new transports.Console()]
-});
+export default class Logger {
+  private logger: any
 
-export class Logger {
-    main() {
+  constructor(labelString: any) {
+    this.logger = new createLogger({
+      format: combine(label({ label: labelString }), timestamp(), myFormat),
+      transports: [new transports.Console()],
+    })
+  }
 
-    }
+  public log(level: any, message: any): void {
+    this.logger.log({level, message})
+  }
+
+  public info(message: any): void {
+    this.logger.log({level: 'info', message})
+  }
+
+  public debug(message: any): void {
+    this.logger.log({level: 'debug', message})
+  }
+
+  public error(message: any): void {
+    this.logger.log({level: 'error', message})
+  }
+
 }

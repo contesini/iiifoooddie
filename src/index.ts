@@ -1,9 +1,7 @@
 import { IfoodClient } from './ifood/index'
-import * as path from 'path'
-import * as dotenv from 'dotenv'
+
 import { Merchant } from './ifood/types/merchant'
 
-dotenv.config({ path: path.join(__dirname, '../.env') })
 
 const main = async () => {
   const ifoodClient = new IfoodClient()
