@@ -12,7 +12,7 @@
     "clean": "rm -rf build/* dist/* docs/* lib/*",
     "commit": "git add --all && git-cz",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "docs": "typedoc --excludeExternals --externalPattern \"node_modules/**\" --ignoreCompilerErrors --name TypeScript\\ Bootstrap --out docs/ --mode file --module umd --target ESNEXT --readme none src/*",
+    "docs": "typedoc --excludeExternals --externalPattern \"node_modules/**\" --ignoreCompilerErrors --name iiifoooddie --out docs/ --mode file --module umd --target ESNEXT --readme none src/*",
     "lint": "eslint -c .eslintrc.json src/**/*.ts --quiet",
     "lint:fix": "eslint -c .eslintrc.json src/**/*.ts --fix --quiet",
     "semantic-release": "semantic-release",
@@ -26,7 +26,8 @@
     "test:functional": "jest test/functional/**/*\\.spec\\.[jt]s",
     "test:integration": "jest test/integration/**/*\\.spec\\.[jt]s",
     "test:unit": "jest test/unit/**/*\\.spec\\.[jt]s",
-    "watch": "tsc; rollup --config rollup.config.js --watch.exclude \"node_modules/**\" "
+    "watch": "tsc; rollup --config rollup.config.js --watch.exclude \"node_modules/**\" ",
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",
