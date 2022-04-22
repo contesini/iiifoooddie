@@ -20,8 +20,9 @@
     "setup:update-package-json": "sed -i .orig '3s/.*/  \"version\": \"0.0.0-semantically-released\",/' package.json",
     "setup:commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact",
     "setup:semantic-release": "semantic-release-cli setup",
-    "test": "npm run test:all",
-    "test:all": "jest --coverage",
+    "test": "ENV=test npm run test:all",
+    "test:with:log": "npm run test:all",
+    "test:all": "jest --coverage --no-cache",
     "test:functional": "jest test/functional/**/*\\.spec\\.[jt]s",
     "test:integration": "jest test/integration/**/*\\.spec\\.[jt]s",
     "test:unit": "jest test/unit/**/*\\.spec\\.[jt]s",
@@ -90,10 +91,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "functions": 70,
-        "branches": 50,
-        "lines": 70,
-        "statements": 50
+        "functions": 20,
+        "branches": 20,
+        "lines": 20,
+        "statements": 20
       }
     },
     "preset": "ts-jest",
@@ -107,7 +108,8 @@
     ],
     "verbose": true,
     "collectCoverageFrom": [
-      "<rootDir>/src/"
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/"
     ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/node_modules/"

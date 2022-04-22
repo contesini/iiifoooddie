@@ -23,7 +23,7 @@ export default class IfoodClientUtils {
   }
 
   public static getHeaders(token?: string): any {
-    IfoodClientUtils.logger.info('get headers')
+    IfoodClientUtils.logger.debug('get headers')
     if (token) {
       return {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -39,10 +39,10 @@ export default class IfoodClientUtils {
 
   public static handlerResponse<T>(resp: AxiosResponse<any, any>): T {
     if (resp.status === 200) {
-      IfoodClientUtils.logger.log('debug', `get reponse ${JSON.stringify(resp)}`)
+      IfoodClientUtils.logger.info(`get reponse ${JSON.stringify(resp)}`)
       return resp.data
     } else {
-      IfoodClientUtils.logger.log('info', `get response status ${resp.status}`)
+      IfoodClientUtils.logger.error(`get response status ${resp.status}`)
       throw new IfoodResponseFailedError(
         `response from ifood return status code ${resp.status}`,
       )
@@ -55,7 +55,7 @@ export default class IfoodClientUtils {
     value: string,
   ) {
     if (!params.get(key)) {
-      IfoodClientUtils.logger.info(`append key ${key} with value: ${value}`)
+      IfoodClientUtils.logger.debug(`append key ${key} with value: ${value}`)
       params.append(key, value);
     }
   }

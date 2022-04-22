@@ -2,7 +2,7 @@ import axios from 'axios'
 import IfoodClientMerchant from '../../../../src/ifood/modules/merchants'
 import * as path from 'path'
 import * as dotenv from 'dotenv'
-import { merchantMockData, merchantStatusMockData } from './static'
+import { merchantDetailsMockData, merchantInterruptionsMockData, merchantMockData, merchantStatusMockData } from './static'
 
 dotenv.config({ path: path.join(__dirname, '../.env') })
 
@@ -56,13 +56,13 @@ describe('ifood-client-merchant', () => {
   describe('getMerchantStatus', () => {
     it('should get getMerchantStatus', async () => {
       // given
-      ((axios as unknown) as jest.Mock)
+      ;((axios as unknown) as jest.Mock)
         .mockResolvedValueOnce(merchantStatusMockData)
         .mockReturnValueOnce(merchantStatusMockData)
 
       // when
       const result = await IfoodClientMerchant.getMerchantStatus(
-        'ids',
+        'id',
         'authorized',
       )
 
@@ -103,4 +103,109 @@ describe('ifood-client-merchant', () => {
       }
     })
   })
+
+  describe('getMerchantInterruptions', () => {
+    it('should get getMerchantInterruptions', async () => {
+      // given
+      ((axios as unknown) as jest.Mock)
+        .mockResolvedValueOnce(merchantInterruptionsMockData)
+        .mockReturnValueOnce(merchantInterruptionsMockData)
+
+      // when
+      const result = await IfoodClientMerchant.getMerchantInterruptions(
+        'id',
+        'authorized',
+      )
+
+      expect(result.data).toEqual(merchantInterruptionsMockData.data)
+      expect(result.status).toEqual(merchantInterruptionsMockData.status)
+    })
+
+    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
+      // given
+      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(
+        merchantInterruptionsMockData,
+      )
+
+      try {
+        // when
+        await IfoodClientMerchant.getMerchantStatus('id', '')
+      } catch (error) {
+        expect(error.message).toEqual('invalid token')
+      }
+    })
+
+    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
+      // given
+      const merchants = {
+        status: 400,
+        data: merchantInterruptionsMockData.data,
+      }
+
+      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(merchants)
+
+      try {
+        // when
+        await IfoodClientMerchant.getMerchantStatus('id', 'authorized')
+      } catch (error) {
+        expect(error.message).toEqual(
+          `Get error when trying to get merchants from ifood api`,
+        )
+      }
+    })
+  })
+
+
+  describe('getMerchantDetails', () => {
+    it('should get getMerchantDetails', async () => {
+      // given
+      ((axios as unknown) as jest.Mock)
+        .mockResolvedValueOnce(merchantDetailsMockData)
+        .mockReturnValueOnce(merchantDetailsMockData)
+
+      // when
+      const result = await IfoodClientMerchant.getMerchantDetails(
+        'id',
+        'authorized',
+      )
+
+      expect(result.data).toEqual(merchantDetailsMockData.data)
+      expect(result.status).toEqual(merchantDetailsMockData.status)
+    })
+
+    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
+      // given
+      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(
+        merchantDetailsMockData,
+      )
+
+      try {
+        // when
+        await IfoodClientMerchant.getMerchantStatus('id', '')
+      } catch (error) {
+        expect(error.message).toEqual('invalid token')
+      }
+    })
+
+    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
+      // given
+      const merchants = {
+        status: 400,
+        data: merchantDetailsMockData.data,
+      }
+
+      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(merchants)
+
+      try {
+        // when
+        await IfoodClientMerchant.getMerchantStatus('id', 'authorized')
+      } catch (error) {
+        expect(error.message).toEqual(
+          `Get error when trying to get merchants from ifood api`,
+        )
+      }
+    })
+    
+  })
+
 })

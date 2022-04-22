@@ -1,24 +1,23 @@
 import Logger from '../../../utils/logger'
-import IfoodClientAuth from '../auth/index'
 import axios, { AxiosResponse } from 'axios'
 import IfoodClientUtils from '../../utils'
-import { Review, ReviewResponse } from '../../types/reviews'
+import { ReviewResponse } from '../../types/reviews'
 import { IfoodGetReviewError, IfoodGetReviewsError, IfoodInvalidClientToken } from '../../errors'
 import { MerchantReviewInput, MerchantReviewsInput } from '../../types/merchant'
 
-export default class IfoodClientReviews {
+export default class IfoodClientReview {
   private static logger = new Logger('ifood-client-review')
 
   private static MERCHANT_REVIEWS_GET_PATH = (id: string) =>
-    IfoodClientUtils.formatURL(`/review/v1.0/merchants/${id}/reviews`)
+    new IfoodClientUtils().formatURL(`/review/v1.0/merchants/${id}/reviews`)
 
   private static MERCHANT_REVIEW_GET_PATH = (args: MerchantReviewInput) =>
-    IfoodClientUtils.formatURL(
+    new IfoodClientUtils().formatURL(
       `/review/v1.0/merchants/${args.merchantId}/${args.reviewId}`,
     )
 
   private static getMerchantReviewParams(args: MerchantReviewsInput) {
-    this.logger.info('get merchant review params')
+    IfoodClientReview.logger.info('get merchant review params')
     const params = new URLSearchParams()
     const argsKeys = Object.keys(args) as []
     for (let index = 0; index < argsKeys.length; index++) {
@@ -41,11 +40,11 @@ export default class IfoodClientReviews {
     pageSize: number,
     token: string,
   ): Promise<AxiosResponse<any, any>[]> {
-    this.logger.info('get all reviews')
+    IfoodClientReview.logger.info('get all reviews')
     const promises = []
     try {
-      for (let index = 1; index + 1 < pageSize; index++) {
-        const params = this.getMerchantReviewParams({
+      for (let index = 1; index < pageSize; index++) {
+        const params = IfoodClientReview.getMerchantReviewParams({
           ...args,
           page: 1 + index,
         })
@@ -58,9 +57,9 @@ export default class IfoodClientReviews {
         promises.push(reviewPromise)
       }
 
-      return  Promise.all(promises)
+      return Promise.all(promises)
     } catch (error) {
-      this.logger.error(error)
+      IfoodClientReview.logger.error(error)
     }
     throw new IfoodGetReviewsError(
       `Get error when request all reviews from merchant ${args.merchantId}`,
@@ -72,7 +71,7 @@ export default class IfoodClientReviews {
     token: string
   ): Promise<ReviewResponse[]> {
     if (token === undefined || token === '') throw new IfoodInvalidClientToken("invalid token");
-    this.logger.info(`getMerchantReviews for id: ${args.merchantId}`)
+    IfoodClientReview.logger.info(`getMerchantReviews for id: ${args.merchantId}`)
     const params = this.getMerchantReviewParams(args)
     try {
       const firstReviewResponse = await axios({
@@ -81,7 +80,7 @@ export default class IfoodClientReviews {
         method: 'GET',
         params,
       })
-      const firstReviewResponseData = await IfoodClientUtils.handlerResponse<ReviewResponse>(
+      const firstReviewResponseData = IfoodClientUtils.handlerResponse<ReviewResponse>(
         firstReviewResponse,
       ) 
       const reviews = (await this.getAllReviews(
@@ -89,9 +88,12 @@ export default class IfoodClientReviews {
         firstReviewResponseData.pageCount,
         token,
       ))
-      return [firstReviewResponseData, ...reviews.map(r => IfoodClientUtils.handlerResponse<ReviewResponse>(r))]
+      return [
+        firstReviewResponseData,
+        ...reviews.map(r => IfoodClientUtils.handlerResponse<ReviewResponse>(r))
+      ]
     } catch (error) {
-        this.logger.error(error)
+        IfoodClientReview.logger.error(error)
     }
     throw new IfoodGetReviewsError(
       `Get error when trying to get merchant reviews from merchant ${args.merchantId}`,
@@ -101,20 +103,20 @@ export default class IfoodClientReviews {
   public static async getReview(
     args: MerchantReviewInput,
     token: string
-  ): Promise<Review> {
+  ): Promise<AxiosResponse<any, any>> {
     if (token === undefined || token === '') throw new IfoodInvalidClientToken("invalid token");
-    this.logger.info(`getReview for id: ${args.merchantId}`)
+    IfoodClientReview.logger.info(`getReview for id: ${args.merchantId}`)
     const params = IfoodClientUtils.getParamsFromArgs(args)
     try {
       const response = await axios({
-        url: this.MERCHANT_REVIEW_GET_PATH(args),
+        url: IfoodClientReview.MERCHANT_REVIEW_GET_PATH(args),
         headers: IfoodClientUtils.getHeaders(token),
         method: 'GET',
         params,
       })
-      return IfoodClientUtils.handlerResponse(response) as Review
+      return response
     } catch (error) {
-      this.logger.error(error)
+      IfoodClientReview.logger.error(error)
     }
     throw new IfoodGetReviewError("get error when request getReview")
   }

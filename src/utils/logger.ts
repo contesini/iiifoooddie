@@ -2,8 +2,10 @@ const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, label, printf } = format
 
 const myFormat = printf(({ level, message, label, timestamp }: any) => {
-  return `${timestamp} [${label}] ${level}: ${message}`
+  return `${level} - [${label}] - ${timestamp}: ${message}`
 })
+
+const ENV = process.env.ENV
 
 export default class Logger {
   private logger: any
@@ -16,18 +18,22 @@ export default class Logger {
   }
 
   public log(level: any, message: any): void {
+    if(ENV === 'test') return
     this.logger.log({level, message})
   }
 
   public info(message: any): void {
+    if(ENV === 'test') return
     this.logger.log({level: 'info', message})
   }
 
   public debug(message: any): void {
+    if(ENV === 'test') return
     this.logger.log({level: 'debug', message})
   }
 
   public error(message: any): void {
+    if(ENV === 'test') return
     this.logger.log({level: 'error', message})
   }
 

@@ -8,7 +8,7 @@ import {
 } from '../../errors/index'
 import axios from 'axios'
 
-export default class IfoodClientAuth  {
+export default class IfoodClientAuth {
   private static logger = new Logger('ifood-client-auth')
 
   private static clientId = String(process.env.IFOOD_CLIENT_ID)
@@ -20,24 +20,29 @@ export default class IfoodClientAuth  {
 
   private static validateIfoodClientIdAndSecret = () => {
     if (IfoodClientAuth.clientId === undefined) {
-        IfoodClientAuth.logger.error('client id is undefined set env variable: IFOOD_CLIENT_ID')
+      IfoodClientAuth.logger.error(
+        'client id is undefined set env variable: IFOOD_CLIENT_ID',
+      )
       throw new IfoodInvalidClientIdError(
         'invalid client id, check env IFOOD_CLIENT_ID',
       )
     }
     if (IfoodClientAuth.clientSecret === undefined) {
-        IfoodClientAuth.logger.error('client id is undefined set env variable: IFOOD_CLIENT_SECRET')
+      IfoodClientAuth.logger.error(
+        'client id is undefined set env variable: IFOOD_CLIENT_SECRET',
+      )
       throw new IfoodInvalidClientSecretError(
         'invalid client id, check env IFOOD_CLIENT_SECRET',
       )
     }
     IfoodClientAuth.logger.debug(`IFOOD_CLIENT_ID ${IfoodClientAuth.clientId}`)
-    IfoodClientAuth.logger.debug(`IFOOD_CLIENT_SECRET ${IfoodClientAuth.clientSecret}`)
-
+    IfoodClientAuth.logger.debug(
+      `IFOOD_CLIENT_SECRET ${IfoodClientAuth.clientSecret}`,
+    )
   }
 
   public static getAuthParams(): URLSearchParams {
-    IfoodClientAuth.logger.info('get authparams')
+    IfoodClientAuth.logger.debug('getAuthParams')
     IfoodClientAuth.validateIfoodClientIdAndSecret()
     const params = new URLSearchParams()
     params.append('grantType', 'client_credentials')
@@ -48,22 +53,25 @@ export default class IfoodClientAuth  {
   }
 
   public static authenticate = async () => {
-    IfoodClientAuth.logger.info('authenticate')
+    IfoodClientAuth.logger.debug('authenticate')
     try {
-      const params = IfoodClientAuth.getAuthParams();
+      const params = IfoodClientAuth.getAuthParams()
       const resp = await axios({
         url: IfoodClientAuth.AUTHENTICATION_PATH(),
         method: 'POST',
         headers: IfoodClientUtils.getHeaders(),
         params,
-      });
-      const token = IfoodClientUtils.handlerResponse(resp)
+      })
+      const token = IfoodClientUtils.handlerResponse<string>(resp)
       if (token !== undefined) {
+        IfoodClientAuth.logger.info('get token with sucess')
         return token
-      } 
+      }
     } catch (error) {
-      IfoodClientAuth.logger.error(error);
+      IfoodClientAuth.logger.error(error)
     }
-    throw new IfoodAuthForbidden("Please check IFOOD_CLIENT_ID and IFOOD_CLIENT_SECRET are valid")
-  };
+    throw new IfoodAuthForbidden(
+      'Please check IFOOD_CLIENT_ID and IFOOD_CLIENT_SECRET are valid',
+    )
+  }
 }
