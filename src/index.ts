@@ -17,6 +17,7 @@ import IfoodClientReview from './ifood/modules/reviews'
 import IfoodClientUtils from './ifood/utils'
 import { Sales } from './ifood/types/sales'
 import { Order, Review } from './ifood/types/reviews'
+import IfoodClientAuth from './ifood/modules/auth'
 export default class IfoodClient {
   private logger = new Logger('ifood-client')
 
@@ -31,6 +32,20 @@ export default class IfoodClient {
   private order = () => IfoodClientOrder
 
   private reviews = () => IfoodClientReview
+
+
+    /**
+   * Se clientId e clientSecret não forem passados via parametro como fallback
+   * tenta ler os valores das variaveis de ambiente
+   * @param  {string=} clientId [description]
+   * @param  {string=} clientSecret [description]
+
+   * @return {Promise<void>}     [description]
+   */
+  public async create(clientId?: string, clientSecret?: string): Promise<void> {
+    const token = await IfoodClientAuth.authenticate(clientId, clientSecret)
+    this.authEventBus.setToken(token)
+  }
 
   public async getMerchantSales(args: MerchantSalesInput) {
     return await this.financial()

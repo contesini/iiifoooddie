@@ -41,21 +41,21 @@ export default class IfoodClientAuth {
     )
   }
 
-  public static getAuthParams(): URLSearchParams {
+  public static getAuthParams(clientId?: string, clientSecret?: string): URLSearchParams {
     IfoodClientAuth.logger.debug('getAuthParams')
     IfoodClientAuth.validateIfoodClientIdAndSecret()
     const params = new URLSearchParams()
     params.append('grantType', 'client_credentials')
-    params.append('clientId', IfoodClientAuth.clientId)
-    params.append('clientSecret', IfoodClientAuth.clientSecret)
+    params.append('clientId', clientId || IfoodClientAuth.clientId)
+    params.append('clientSecret', clientSecret || IfoodClientAuth.clientSecret)
     IfoodClientAuth.logger.debug(`get auth params ${JSON.stringify(params)}`)
     return params
   }
 
-  public static authenticate = async () => {
+  public static authenticate = async (clientId?: string, clientSecret?: string) => {
     IfoodClientAuth.logger.debug('authenticate')
     try {
-      const params = IfoodClientAuth.getAuthParams()
+      const params = IfoodClientAuth.getAuthParams(clientId, clientSecret)
       const resp = await axios({
         url: IfoodClientAuth.AUTHENTICATION_PATH(),
         method: 'POST',
