@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: 12
+          node-version: 16
       - name: Install codecov
         run: |
           yarn global add codecov
@@ -46,7 +46,7 @@ jobs:
         uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: 12
+          node-version: 16
       - name: Compile Documentation
         run: |
           yarn
@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@master
       - uses: actions/setup-node@master
         with: 
-          node-version: 12
+          node-version: 16
           registry-url: https://registry.npmjs.org/
       - name: Update package version
         run: |
@@ -78,7 +78,7 @@ jobs:
         uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: 12
+          node-version: 16
           registry-url: https://npm.pkg.github.com
       - name: Update package version
         run: |
