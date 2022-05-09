@@ -1,5 +1,5 @@
 # Iiifoooddie
-[![Build and Test](https://github.com/contesini/iiifoooddie/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/contesini/iiifoooddie/actions/workflows/nodejs.yml)
+[![Build and Test - Branch dev](https://github.com/contesini/iiifoooddie/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/contesini/iiifoooddie/actions/workflows/nodejs.yml)
 [![CodeQL](https://github.com/contesini/iiifoooddie/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/contesini/iiifoooddie/actions/workflows/codeql-analysis.yml)
 [![Publish, Coverage and Document](https://github.com/contesini/iiifoooddie/actions/workflows/publish.yml/badge.svg)](https://github.com/contesini/iiifoooddie/actions/workflows/publish.yml)
 
