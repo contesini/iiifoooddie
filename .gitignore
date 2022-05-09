@@ -77,7 +77,3 @@ coverage.lcov
 .npmrc
 
 id_rsa*
-
-#cache
-.rpt2_cache
-.nyc_output
