@@ -33,7 +33,7 @@ jobs:
           node-version: 12
       - name: Install codecov
         run: |
-          yarn install -g codecov
+          yarn global add codecov
           yarn
           yarn coverage
 
