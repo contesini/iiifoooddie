@@ -37,7 +37,7 @@ export default class IfoodClientAuth {
     }
     IfoodClientAuth.logger.debug(`IFOOD_CLIENT_ID ${IfoodClientAuth.clientId}`)
     IfoodClientAuth.logger.debug(
-      `IFOOD_CLIENT_SECRET ${IfoodClientAuth.clientSecret}`,
+      `IFOOD_CLIENT_SECRET ${IfoodClientAuth.clientSecret.slice(0, 4)}`,
     )
   }
 
