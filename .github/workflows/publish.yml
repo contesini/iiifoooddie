@@ -80,12 +80,13 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com
+          scope: '@contesini'
       - name: Update package version
         run: |
           git config user.name "contesini"
           git config user.email "allancontesini@gmail.com"
       - run: |
-          npm ci
-          npm publish
+          yarn install --frozen-lockfile
+          yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GHUB_TOKEN }}
