@@ -72,7 +72,7 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-typescript2": "^0.22.0",
-    "semantic-release": "^17.1.1",
+    "semantic-release": "^19.0.2",
     "semantic-release-cli": "^4.1.0",
     "ts-jest": "^26.4.3",
     "tslint-to-eslint-config": "^0.2.4",

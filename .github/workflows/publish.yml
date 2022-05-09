@@ -82,8 +82,8 @@ jobs:
           registry-url: https://npm.pkg.github.com
       - name: Update package version
         run: |
-          git config user.name "Spencer Pollock"
-          git config user.email "spencer@spollock.ca"
+          git config user.name "contesini"
+          git config user.email "allancontesini@gmail.com"
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
