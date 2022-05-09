@@ -17,9 +17,9 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
       - run: |
-          npm install
-          npm run build
-          npm run test
+          yarn install
+          yarn build
+          yarn test
 
   coverage:
     needs: build_test
@@ -33,9 +33,9 @@ jobs:
           node-version: 12
       - name: Install codecov
         run: |
-          npm install -g codecov
-          npm install
-          npm run coverage
+          yarn install -g codecov
+          yarn
+          yarn coverage
 
   docs:
     needs: build_test
@@ -49,8 +49,8 @@ jobs:
           node-version: 12
       - name: Compile Documentation
         run: |
-          npm install
-          npm run docs
+          yarn
+          yarn docs
 
   publish_npm:
     needs: [build_test, coverage, docs]
@@ -64,8 +64,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Update package version
         run: |
-          npm run semantic-release
-          npm publish
+          yarn semantic-release
+          yarn publish
         if: github.event == 'push'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -84,6 +84,6 @@ jobs:
         run: |
           git config user.name "contesini"
           git config user.email "allancontesini@gmail.com"
-      - run: npm publish
+      - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GHUB_TOKEN }}
