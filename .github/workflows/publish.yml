@@ -84,6 +84,8 @@ jobs:
         run: |
           git config user.name "contesini"
           git config user.email "allancontesini@gmail.com"
-      - run: yarn publish
+      - run: |
+          npm ci
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GHUB_TOKEN }}
