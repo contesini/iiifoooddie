@@ -57,7 +57,7 @@ export default class IfoodClientReview {
         promises.push(reviewPromise)
       }
 
-      return Promise.all(promises)
+      return await Promise.all(promises)
     } catch (error) {
       IfoodClientReview.logger.error(error)
     }
