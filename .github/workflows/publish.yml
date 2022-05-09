@@ -70,23 +70,24 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  publish_github:
-    needs: [build_test, coverage, docs]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com
-          scope: '@contesini'
-      - name: Update package version
-        run: |
-          git config user.name "contesini"
-          git config user.email "allancontesini@gmail.com"
-      - run: |
-          yarn install --frozen-lockfile
-          yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GHUB_TOKEN }}
+  # publish_github:
+  #   needs: [build_test, coverage, docs]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@master
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         always-auth: true
+  #         node-version: 16
+  #         registry-url: https://npm.pkg.github.com
+  #         scope: '@contesini'
+  #     - name: Update package version
+  #       run: |
+  #         git config user.name "contesini"
+  #         git config user.email "allancontesini@gmail.com"
+  #     - run: |
+  #         yarn install --frozen-lockfile
+  #         yarn publish
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{ secrets.GHUB_TOKEN }}
