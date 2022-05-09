@@ -1,9 +1,8 @@
 {
   "name": "iiifoooddie",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "sdk for ifood api",
-  "main": "./lib/main.umd.ts",
-  "module": "./lib/main.es.js",
+  "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
     "start": "node .",
