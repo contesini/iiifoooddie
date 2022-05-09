@@ -22,9 +22,6 @@ lib-cov
 coverage
 coverage.lcov
 
-# nyc test coverage
-.nyc_output
-
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
@@ -72,7 +69,7 @@ docs/
 
 # Codecov
 coverage.lcov
-.nyc_output/*
+.nyc_output/
 
 .npmrc
 
