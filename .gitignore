@@ -69,7 +69,6 @@ docs/
 
 # Codecov
 coverage.lcov
-.nyc_output/
 
 .npmrc
 
