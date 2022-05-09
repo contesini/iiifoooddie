@@ -13,9 +13,7 @@ jobs:
     strategy:
       matrix:
         node_version: 
-          - 11
-          - 12
-          - 14
+          - 16
         os: 
           - macOS-latest
           - ubuntu-latest
@@ -28,6 +26,6 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
       - run: |
-          npm install
-          npm run build
-          npm run test
+          yarn install
+          yarn run build
+          yarn run test

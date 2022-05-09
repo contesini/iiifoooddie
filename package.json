@@ -1,6 +1,6 @@
 {
   "name": "iiifoooddie",
-  "version": "0.0.0-development",
+  "version": "0.0.2",
   "description": "sdk for ifood api",
   "main": "./lib/main.umd.ts",
   "module": "./lib/main.es.js",
@@ -12,7 +12,7 @@
     "clean": "rm -rf build/* dist/* docs/* lib/*",
     "commit": "git add --all && git-cz",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "docs": "typedoc --excludeExternals --externalPattern \"node_modules/**\" --ignoreCompilerErrors --name TypeScript\\ Bootstrap --out docs/ --mode file --module umd --target ESNEXT --readme none src/*",
+    "docs": "typedoc --excludeExternals --externalPattern \"node_modules/**\" --ignoreCompilerErrors --name iiifoooddie --out docs/ --mode file --module umd --target ESNEXT --readme none src/*",
     "lint": "eslint -c .eslintrc.json src/**/*.ts --quiet",
     "lint:fix": "eslint -c .eslintrc.json src/**/*.ts --fix --quiet",
     "semantic-release": "semantic-release",
@@ -20,12 +20,14 @@
     "setup:update-package-json": "sed -i .orig '3s/.*/  \"version\": \"0.0.0-semantically-released\",/' package.json",
     "setup:commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact",
     "setup:semantic-release": "semantic-release-cli setup",
-    "test": "npm run test:all",
-    "test:all": "jest --coverage",
+    "test": "ENV=test npm run test:all",
+    "test:with:log": "npm run test:all",
+    "test:all": "jest --coverage --no-cache",
     "test:functional": "jest test/functional/**/*\\.spec\\.[jt]s",
     "test:integration": "jest test/integration/**/*\\.spec\\.[jt]s",
     "test:unit": "jest test/unit/**/*\\.spec\\.[jt]s",
-    "watch": "tsc; rollup --config rollup.config.js --watch.exclude \"node_modules/**\" "
+    "watch": "tsc; rollup --config rollup.config.js --watch.exclude \"node_modules/**\" ",
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",
@@ -70,7 +72,7 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-typescript2": "^0.22.0",
-    "semantic-release": "^17.1.1",
+    "semantic-release": "^19.0.2",
     "semantic-release-cli": "^4.1.0",
     "ts-jest": "^26.4.3",
     "tslint-to-eslint-config": "^0.2.4",
@@ -90,10 +92,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "functions": 70,
-        "branches": 50,
-        "lines": 70,
-        "statements": 50
+        "functions": 20,
+        "branches": 20,
+        "lines": 20,
+        "statements": 20
       }
     },
     "preset": "ts-jest",
@@ -107,7 +109,8 @@
     ],
     "verbose": true,
     "collectCoverageFrom": [
-      "<rootDir>/src/"
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/"
     ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/node_modules/"

@@ -4,14 +4,13 @@ import Logger from '../../../utils/logger'
 import axios, { AxiosResponse } from 'axios'
 import IfoodClientUtils from '../../utils'
 import {  IfoodGetMerchantSalesError, IfoodInvalidClientToken } from '../../errors'
-import { Sales } from '../../types/sales'
 
 
 export default class IfoodClientFinancial {
   private static logger = new Logger('ifood-client-financial')
 
   private static MERCHANTS_SALES_GET_PATH = (id: string) =>
-  IfoodClientUtils.formatURL(`/financial/v1.0/merchants/${id}/sales`);
+  new IfoodClientUtils().formatURL(`/financial/v1.0/merchants/${id}/sales`);
 
   private static getMerchantSalesParams(args: MerchantSalesInput) {
     this.logger.info('getMerchantSalesParams')

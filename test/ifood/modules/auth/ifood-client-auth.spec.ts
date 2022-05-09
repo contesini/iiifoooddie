@@ -1,14 +1,13 @@
 import axios from "axios";
-import IfoodClientAuth from "../src/ifood/modules/auth";
+import IfoodClientAuth from "../../../../src/ifood/modules/auth";
 import * as path from 'path'
 import * as dotenv from 'dotenv'
-import { IfoodAuthForbidden } from "../src/ifood/errors";
 
 dotenv.config({ path: path.join(__dirname, '../.env') })
 
 jest.mock("axios");
 
-describe("Add test", () => {
+describe("ifood-client-auth", () => {
     it("should authenticate and generate token", async () => {
       // given
       const token = {
@@ -23,10 +22,8 @@ describe("Add test", () => {
 
       expect(result).toEqual(token.data);
 
+
     });
-
-
-
     it("should return error when credentials is invalid", async() => {
       // given
       const token = {
@@ -39,10 +36,11 @@ describe("Add test", () => {
       try {
         await IfoodClientAuth.authenticate()
         
-      } catch (error) {        
-        // when
+      } catch (error) {
+        
         expect(error.message).toBe("Please check IFOOD_CLIENT_ID and IFOOD_CLIENT_SECRET are valid")
       }
+      // when
 
     });
 

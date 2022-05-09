@@ -7,4 +7,3 @@ docs:
     - LICENSE
     - wiki/**/*
     - docs/**/*
-    - *.md
