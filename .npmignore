@@ -17,7 +17,7 @@ benchmark/
 ###########
 .npmignore
 /node_modules/
-
+.env
 # Logs #
 ########
 *.log
