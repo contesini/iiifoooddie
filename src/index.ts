@@ -33,6 +33,9 @@ export default class IfoodClient {
 
   private reviews = () => IfoodClientReview
 
+  constructor() {
+    
+  }
 
     /**
    * Se clientId e clientSecret não forem passados via parametro como fallback
