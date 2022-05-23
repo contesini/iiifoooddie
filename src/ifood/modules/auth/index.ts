@@ -62,10 +62,10 @@ export default class IfoodClientAuth {
         headers: IfoodClientUtils.getHeaders(),
         params,
       })
-      const token = IfoodClientUtils.handlerResponse<string>(resp)
+      const token = IfoodClientUtils.handlerResponse<any>(resp)
       if (token !== undefined) {
         IfoodClientAuth.logger.info('get token with sucess')
-        return token
+        return token.accessToken
       }
     } catch (error) {
       IfoodClientAuth.logger.error(error)
