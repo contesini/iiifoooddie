@@ -11,11 +11,16 @@ export default class IfoodClientOrder {
   public static ORDER_GET_PATH = (id: string) =>
    new IfoodClientUtils().formatURL(`/order/v1.0/orders/${id}`);
 
+  private static async sleep(ms: number) {
+    return await new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   public static async getOrderById(id: string, token: string) {
     if (token === undefined) throw new IfoodInvalidClientToken("invalid token");
     IfoodClientOrder.logger.info(`getOrderById id: ${id}`);
     const params = IfoodClientUtils.getParamsFromArgs({ id, token });
     try {
+      this.sleep(300)
       const response = await axios({
         url: IfoodClientOrder.ORDER_GET_PATH(id),
         headers: IfoodClientUtils.getHeaders(token),
