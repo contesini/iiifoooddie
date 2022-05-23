@@ -97,13 +97,14 @@ export default class IfoodClient {
       .then((r) => IfoodClientUtils.handlerResponse<MerchantOperation[]>(r))
   }
 
+
   private async getOrders(ordersIds: string[]) {
-    const promises = []
+    const orders = []
     for (let index = 0; index < ordersIds.length; index++) {
       const orderId = ordersIds[index]
-      promises.push(this.getOrderById(orderId))
+      orders.push(await this.getOrderById(orderId))
     }
-    return await Promise.all(promises)
+    return orders
   }
 
   public async getOrderById(id: string) {
