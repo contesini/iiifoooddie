@@ -45,7 +45,7 @@ export default class IfoodClient {
 
    * @return {Promise<void>}     [description]
    */
-  public async create(clientId?: string, clientSecret?: string): Promise<void> {
+  public async authenticate(clientId?: string, clientSecret?: string): Promise<void> {
     const token = await IfoodClientAuth.authenticate(clientId, clientSecret)
     this.authEventBus.setToken(token)
   }

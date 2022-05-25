@@ -262,7 +262,7 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/order/index.ts": {
-        "version": "c99e50cd764a7fce49828d68dee42afcc56650f92163fafc1030010a3d1c4f38",
+        "version": "153e7706e2794e3b088e9d53bb57969cdc331c4b3d17a854027ee19ef4f2aa64",
         "signature": "8a1d14091709b913066df9998ed634b1d580d43a461231f82180f97d297df6a3",
         "affectsGlobalScope": false
       },
@@ -272,8 +272,8 @@
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "8c146d37426eb35e6c7dc26f5adb68aab9e6348b0cc16ba90ffa07ccb14d057e",
-        "signature": "f66918c7016dc0e4de67807ce5804ff602359e84dcea1027b74f8adb67065398",
+        "version": "1a24041f7446d9d951341360384d960b2e1bb4c02d08811567cc16620053278d",
+        "signature": "39e8d2cae631056f5ab6fb56c848f7975785e6ba96c7f74dcbc6033a8ee95d0c",
         "affectsGlobalScope": false
       },
       "./src/ifood/types/order.ts": {
