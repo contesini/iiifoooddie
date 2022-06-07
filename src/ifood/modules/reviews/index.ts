@@ -4,7 +4,9 @@ import IfoodClientUtils from '../../utils'
 import { Review, ReviewResponse } from '../../types/reviews'
 import { IfoodGetReviewError, IfoodGetReviewsError, IfoodInvalidClientToken } from '../../errors'
 import { MerchantReviewInput, MerchantReviewsInput } from '../../types/merchant'
+import axiosRetry from 'axios-retry';
 
+axiosRetry(axios, { retries: 3 });
 export default class IfoodClientReview {
   private static logger = new Logger('ifood-client-review')
 

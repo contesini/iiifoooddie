@@ -7,6 +7,9 @@ import {
   IfoodInvalidClientSecretError,
 } from '../../errors/index'
 import axios from 'axios'
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, { retries: 3 });
 
 export default class IfoodClientAuth {
   private static logger = new Logger('ifood-client-auth')

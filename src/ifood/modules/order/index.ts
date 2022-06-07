@@ -2,7 +2,9 @@ import Logger from '../../../utils/logger'
 import axios from 'axios'
 import IfoodClientUtils from '../../utils'
 import { IfoodGetOrderError, IfoodInvalidClientToken } from '../../errors'
-import { Order } from '../../types/reviews'
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, { retries: 3 });
 
 
 export default class IfoodClientOrder {

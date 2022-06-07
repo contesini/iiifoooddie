@@ -262,17 +262,17 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/order/index.ts": {
-        "version": "153e7706e2794e3b088e9d53bb57969cdc331c4b3d17a854027ee19ef4f2aa64",
+        "version": "2602cdae0eb04fe786404c5d8fd609303fcb1e433d98ce23f9f29b4e61f05509",
         "signature": "8a1d14091709b913066df9998ed634b1d580d43a461231f82180f97d297df6a3",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/reviews/index.ts": {
-        "version": "95caf901313624448f4ec5ac0141a1c41331fd0a15fbe126473b98c19999eb11",
-        "signature": "021d3193ffbef2a1ccf9570a08c990e171a4a6aa12c5bdbf2f49b2d78782f28b",
+        "version": "8fd5506d287371fb60349cb6a4b61fb3f7134f056f7dfd826237133e275a2baa",
+        "signature": "d6ecf98767a3345236e2bd9e80d0138cf54409b177549d4b89376fbac17df7e1",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "1a24041f7446d9d951341360384d960b2e1bb4c02d08811567cc16620053278d",
+        "version": "24ff795abf322fa5bd980f59021c114dfa4042f381af02d7004bf4518e39aa28",
         "signature": "39e8d2cae631056f5ab6fb56c848f7975785e6ba96c7f74dcbc6033a8ee95d0c",
         "affectsGlobalScope": false
       },

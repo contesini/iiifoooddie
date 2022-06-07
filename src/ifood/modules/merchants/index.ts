@@ -8,7 +8,9 @@ import {
   IfoodGetMerchantStatusError,
   IfoodInvalidClientToken,
 } from '../../errors'
+import axiosRetry from 'axios-retry';
 
+axiosRetry(axios, { retries: 3 });
 export default class IfoodClientMerchant {
   private static logger = new Logger('ifood-client-merchant')
 
