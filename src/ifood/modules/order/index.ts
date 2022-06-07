@@ -20,7 +20,7 @@ export default class IfoodClientOrder {
     IfoodClientOrder.logger.info(`getOrderById id: ${id}`);
     const params = IfoodClientUtils.getParamsFromArgs({ id, token });
     try {
-      this.sleep(10)
+      this.sleep(45)
       const response = await axios({
         url: IfoodClientOrder.ORDER_GET_PATH(id),
         headers: IfoodClientUtils.getHeaders(token),
