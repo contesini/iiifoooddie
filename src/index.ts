@@ -116,9 +116,7 @@ export default class IfoodClient {
   public async getAllReviews(args: MerchantReviewsInput, pageSize: number) {
     return this.reviews()
       .getAllReviews(args, pageSize, await this.token())
-      .then((responses) =>
-        responses.map((r) => IfoodClientUtils.handlerResponse<Review[]>(r)),
-      )
+      .then((r) => r.map(reviewResponse => reviewResponse.reviews))
   }
 
   public async getReview(args: MerchantReviewInput) {
