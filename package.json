@@ -1,6 +1,6 @@
 {
   "name": "iiifoooddie",
-  "version": "0.0.41",
+  "version": "0.0.43",
   "description": "sdk for ifood api",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -76,6 +76,7 @@
     "semantic-release": "^19.0.2",
     "semantic-release-cli": "^4.1.0",
     "ts-jest": "^26.4.3",
+    "tslint": "^6.1.3",
     "tslint-to-eslint-config": "^0.2.4",
     "typedoc": "^0.17.8",
     "typescript": "^3.9.6"

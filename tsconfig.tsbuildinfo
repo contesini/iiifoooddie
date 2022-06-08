@@ -206,9 +206,9 @@
         "signature": "b06ad52416951dffa808862484a03771954279b4939a42a88835dc19c0a60558",
         "affectsGlobalScope": false
       },
-      "./src/ifood/types/reviews.ts": {
-        "version": "f428e18f0e02a9fe843557e7639b96f59d6b7dcc2fa492032afa5701aaca08a2",
-        "signature": "597e2030bea7b1d874cb08da752813eedd7b69db09467d40fce423d8a9336e84",
+      "./src/ifood/types/order.ts": {
+        "version": "0dd170dec86b39a17a039c28c435e54632fab63eb8e1c18e03196ea7ea85d0d2",
+        "signature": "9f81d0b2057691ccedc34bcc14d613f8ad327694734399a5ac8ba69cbbccd059",
         "affectsGlobalScope": false
       },
       "./src/ifood/types/sales.ts": {
@@ -217,8 +217,8 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/types/merchant.ts": {
-        "version": "668882191b7bd0aa7bb343181321a12174915edecd64f5f490dd0428c38aabdb",
-        "signature": "25c3bd7bf730f4eb7edc51e7039f5515d81fafed9943eb1ef176b6c542fa220d",
+        "version": "ad1e8af397cd3ea5f4f1de7024f16949c8cb7252908816721c8e39fe76648ba2",
+        "signature": "49358064e25b1305ba60431027cff07cced2514457c82001be1b107a9df19cdb",
         "affectsGlobalScope": false
       },
       "./src/utils/logger.ts": {
@@ -241,8 +241,13 @@
         "signature": "b7e7489e99443a6ab20f2b9af589fd92081ab7ddccb30318fc7b3f1fda67f064",
         "affectsGlobalScope": false
       },
+      "./node_modules/axios-retry/index.d.ts": {
+        "version": "6573d7e13fca725d1da5fb30bb6e767ca5b3032bde1df13441c4742a1d03792a",
+        "signature": "6573d7e13fca725d1da5fb30bb6e767ca5b3032bde1df13441c4742a1d03792a",
+        "affectsGlobalScope": false
+      },
       "./src/ifood/modules/auth/index.ts": {
-        "version": "51cc2ea892f2369f06dd73e0707ea476db995ab53748ff3764824d8e199d892a",
+        "version": "bf9f8d76b6e6829d5fddbbc7e1e14b1238c8c356009fbb2763074f3d4a09b6cd",
         "signature": "1729617e7eb59ed9c3c7386933afcc8c8406895a84de73bb8b107bc77a164e80",
         "affectsGlobalScope": false
       },
@@ -252,33 +257,33 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/financial/index.ts": {
-        "version": "6c3a816f8b0ae22a7e116aa75e9db961c45b59a441abb28a8e3ac0c6809b1b38",
+        "version": "c2711fbaa3fbc8bb1d5b1b73af458332467a03f0d018ee5aa8ee01bc945a126d",
         "signature": "c023ea6092d64db399f1aa86bd09f104cdb70e634d6a9bebbd1b5722ce7f78d2",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/merchants/index.ts": {
-        "version": "3acb168ca6947715f0ba81ad86b49b49799de8ede47da7eb160f72285325be32",
+        "version": "ad7b78dafbe9a59eb5e20be284f5d245ba4e97d432a3c6a9749bbce97c905cfc",
         "signature": "92ae88ac3ee12bd2e6ac933229063b11d92ef8a040ff35cf174f4a4f1b793766",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/order/index.ts": {
-        "version": "2602cdae0eb04fe786404c5d8fd609303fcb1e433d98ce23f9f29b4e61f05509",
+        "version": "d9953d1541312e460aa06328d6a171760f9efcdcc32e585c975e1329392f1c83",
         "signature": "8a1d14091709b913066df9998ed634b1d580d43a461231f82180f97d297df6a3",
         "affectsGlobalScope": false
       },
+      "./src/ifood/types/reviews.ts": {
+        "version": "f428e18f0e02a9fe843557e7639b96f59d6b7dcc2fa492032afa5701aaca08a2",
+        "signature": "597e2030bea7b1d874cb08da752813eedd7b69db09467d40fce423d8a9336e84",
+        "affectsGlobalScope": false
+      },
       "./src/ifood/modules/reviews/index.ts": {
-        "version": "8fd5506d287371fb60349cb6a4b61fb3f7134f056f7dfd826237133e275a2baa",
+        "version": "eb40c992415b1be9fc5bcb91393d1313616c54344ed2a7a1fa2a38a187d68745",
         "signature": "d6ecf98767a3345236e2bd9e80d0138cf54409b177549d4b89376fbac17df7e1",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "24ff795abf322fa5bd980f59021c114dfa4042f381af02d7004bf4518e39aa28",
-        "signature": "39e8d2cae631056f5ab6fb56c848f7975785e6ba96c7f74dcbc6033a8ee95d0c",
-        "affectsGlobalScope": false
-      },
-      "./src/ifood/types/order.ts": {
-        "version": "0dd170dec86b39a17a039c28c435e54632fab63eb8e1c18e03196ea7ea85d0d2",
-        "signature": "9f81d0b2057691ccedc34bcc14d613f8ad327694734399a5ac8ba69cbbccd059",
+        "version": "7734ba4a6e474c06f6c03a2b059d8e25852cddaeda7d5f83b78dfe7470065b3a",
+        "signature": "21ea1e5f185bdd6d0006cd0a6e017e90cfe17d3e440baf56ee76a3b8b00d2432",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/assert.d.ts": {
@@ -964,6 +969,10 @@
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/node/zlib.d.ts"
       ],
+      "./node_modules/axios-retry/index.d.ts": [
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/axios/index.d.ts"
+      ],
       "./node_modules/axios/index.d.ts": [
         "./node_modules/@types/node/util.d.ts"
       ],
@@ -1097,6 +1106,7 @@
       ],
       "./src/ifood/modules/auth/index.ts": [
         "./node_modules/@types/node/util.d.ts",
+        "./node_modules/axios-retry/index.d.ts",
         "./node_modules/axios/index.d.ts",
         "./src/ifood/errors/index.ts",
         "./src/ifood/utils/index.ts",
@@ -1104,6 +1114,7 @@
       ],
       "./src/ifood/modules/financial/index.ts": [
         "./node_modules/@types/node/util.d.ts",
+        "./node_modules/axios-retry/index.d.ts",
         "./node_modules/axios/index.d.ts",
         "./src/ifood/errors/index.ts",
         "./src/ifood/types/merchant.ts",
@@ -1112,6 +1123,7 @@
       ],
       "./src/ifood/modules/merchants/index.ts": [
         "./node_modules/@types/node/util.d.ts",
+        "./node_modules/axios-retry/index.d.ts",
         "./node_modules/axios/index.d.ts",
         "./src/ifood/errors/index.ts",
         "./src/ifood/utils/index.ts",
@@ -1119,14 +1131,15 @@
       ],
       "./src/ifood/modules/order/index.ts": [
         "./node_modules/@types/node/util.d.ts",
+        "./node_modules/axios-retry/index.d.ts",
         "./node_modules/axios/index.d.ts",
         "./src/ifood/errors/index.ts",
-        "./src/ifood/types/reviews.ts",
         "./src/ifood/utils/index.ts",
         "./src/utils/logger.ts"
       ],
       "./src/ifood/modules/reviews/index.ts": [
         "./node_modules/@types/node/util.d.ts",
+        "./node_modules/axios-retry/index.d.ts",
         "./node_modules/axios/index.d.ts",
         "./src/ifood/errors/index.ts",
         "./src/ifood/types/merchant.ts",
@@ -1140,7 +1153,7 @@
       "./src/ifood/types/merchant.ts": [
         "./node_modules/@types/node/util.d.ts",
         "./src/ifood/types/address.ts",
-        "./src/ifood/types/reviews.ts",
+        "./src/ifood/types/order.ts",
         "./src/ifood/types/sales.ts"
       ],
       "./src/ifood/types/order.ts": [
@@ -1167,6 +1180,7 @@
         "./src/ifood/modules/order/index.ts",
         "./src/ifood/modules/reviews/index.ts",
         "./src/ifood/types/merchant.ts",
+        "./src/ifood/types/order.ts",
         "./src/ifood/types/reviews.ts",
         "./src/ifood/types/sales.ts",
         "./src/ifood/utils/index.ts",
@@ -1539,6 +1553,10 @@
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/node/zlib.d.ts"
       ],
+      "./node_modules/axios-retry/index.d.ts": [
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/axios/index.d.ts"
+      ],
       "./node_modules/axios/index.d.ts": [
         "./node_modules/@types/node/util.d.ts"
       ],
@@ -1679,7 +1697,7 @@
       ],
       "./src/ifood/types/merchant.ts": [
         "./src/ifood/types/address.ts",
-        "./src/ifood/types/reviews.ts",
+        "./src/ifood/types/order.ts",
         "./src/ifood/types/sales.ts"
       ],
       "./src/ifood/utils/index.ts": [
@@ -1687,6 +1705,7 @@
       ],
       "./src/index.ts": [
         "./src/ifood/types/merchant.ts",
+        "./src/ifood/types/order.ts",
         "./src/ifood/types/reviews.ts",
         "./src/ifood/types/sales.ts"
       ]
@@ -1751,6 +1770,7 @@
       "./node_modules/@types/node/wasi.d.ts",
       "./node_modules/@types/node/worker_threads.d.ts",
       "./node_modules/@types/node/zlib.d.ts",
+      "./node_modules/axios-retry/index.d.ts",
       "./node_modules/axios/index.d.ts",
       "./node_modules/typescript/lib/lib.d.ts",
       "./node_modules/typescript/lib/lib.dom.d.ts",
