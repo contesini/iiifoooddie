@@ -74,6 +74,7 @@ export interface Order {
     name: string;
     ordersCountOnMerchant: number;
     id: string;
+    segmentation: string;
   }
   
   export interface Phone {
