@@ -16,8 +16,9 @@ import IfoodClientOrder from './ifood/modules/order'
 import IfoodClientReview from './ifood/modules/reviews'
 import IfoodClientUtils from './ifood/utils'
 import { Sales } from './ifood/types/sales'
-import { Order, Review } from './ifood/types/reviews'
+import { Review } from './ifood/types/reviews'
 import IfoodClientAuth from './ifood/modules/auth'
+import { Order } from './ifood/types/order'
 export default class IfoodClient {
   private logger = new Logger('ifood-client')
 
