@@ -2,7 +2,6 @@ import Logger from '../../../utils/logger'
 import axios from 'axios'
 import IfoodClientUtils from '../../utils'
 import { IfoodGetOrderError, IfoodInvalidClientToken } from '../../errors'
-import { Order } from '../../types/reviews'
 
 
 export default class IfoodClientOrder {

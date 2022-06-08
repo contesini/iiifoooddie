@@ -1,5 +1,5 @@
 import { Address } from './address';
-import { Order } from './reviews';
+import { Order } from './order';
 import { Sales } from './sales';
 
 export type MerchantSalesInput = {
