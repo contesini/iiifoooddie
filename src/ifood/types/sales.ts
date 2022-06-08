@@ -1,6 +1,7 @@
 export interface Sales {
     orderId: string;
     orderDate: string;
+    orderNumber?: string;
     lastProcessingDate: string;
     orderStatus: string;
     companyName: string;
