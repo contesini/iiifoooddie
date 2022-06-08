@@ -34,6 +34,9 @@ export default class IfoodClient {
 
   private reviews = () => IfoodClientReview
 
+  constructor() {
+    
+  }
 
     /**
    * Se clientId e clientSecret não forem passados via parametro como fallback
@@ -43,7 +46,7 @@ export default class IfoodClient {
 
    * @return {Promise<void>}     [description]
    */
-  public async create(clientId?: string, clientSecret?: string): Promise<void> {
+  public async authenticate(clientId?: string, clientSecret?: string): Promise<void> {
     const token = await IfoodClientAuth.authenticate(clientId, clientSecret)
     this.authEventBus.setToken(token)
   }
@@ -95,13 +98,14 @@ export default class IfoodClient {
       .then((r) => IfoodClientUtils.handlerResponse<MerchantOperation[]>(r))
   }
 
+
   private async getOrders(ordersIds: string[]) {
-    const promises = []
+    const orders = []
     for (let index = 0; index < ordersIds.length; index++) {
       const orderId = ordersIds[index]
-      promises.push(this.getOrderById(orderId))
+      orders.push(await this.getOrderById(orderId))
     }
-    return await Promise.all(promises)
+    return orders
   }
 
   public async getOrderById(id: string) {
@@ -113,9 +117,7 @@ export default class IfoodClient {
   public async getAllReviews(args: MerchantReviewsInput, pageSize: number) {
     return this.reviews()
       .getAllReviews(args, pageSize, await this.token())
-      .then((responses) =>
-        responses.map((r) => IfoodClientUtils.handlerResponse<Review[]>(r)),
-      )
+      .then((r) => r.map(reviewResponse => reviewResponse.reviews))
   }
 
   public async getReview(args: MerchantReviewInput) {

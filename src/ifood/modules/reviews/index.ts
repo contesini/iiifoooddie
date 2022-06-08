@@ -1,10 +1,12 @@
 import Logger from '../../../utils/logger'
 import axios, { AxiosResponse } from 'axios'
 import IfoodClientUtils from '../../utils'
-import { ReviewResponse } from '../../types/reviews'
+import { Review, ReviewResponse } from '../../types/reviews'
 import { IfoodGetReviewError, IfoodGetReviewsError, IfoodInvalidClientToken } from '../../errors'
 import { MerchantReviewInput, MerchantReviewsInput } from '../../types/merchant'
+import axiosRetry from 'axios-retry';
 
+axiosRetry(axios, { retries: 3 });
 export default class IfoodClientReview {
   private static logger = new Logger('ifood-client-review')
 
@@ -15,6 +17,10 @@ export default class IfoodClientReview {
     new IfoodClientUtils().formatURL(
       `/review/v1.0/merchants/${args.merchantId}/${args.reviewId}`,
     )
+
+  private static async sleep(ms: number) {
+    return await new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   private static getMerchantReviewParams(args: MerchantReviewsInput) {
     IfoodClientReview.logger.info('get merchant review params')
@@ -39,25 +45,28 @@ export default class IfoodClientReview {
     args: MerchantReviewsInput,
     pageSize: number,
     token: string,
-  ): Promise<AxiosResponse<any, any>[]> {
+  ): Promise<ReviewResponse[]> {
     IfoodClientReview.logger.info('get all reviews')
-    const promises = []
+    const reviews = []
     try {
       for (let index = 1; index < pageSize; index++) {
         const params = IfoodClientReview.getMerchantReviewParams({
           ...args,
           page: 1 + index,
         })
-        const reviewPromise = axios({
+        this.sleep(45)
+
+        const reviewResponse = await axios({
           url: this.MERCHANT_REVIEWS_GET_PATH(args.merchantId),
           headers: IfoodClientUtils.getHeaders(token),
           method: 'GET',
           params,
         })
-        promises.push(reviewPromise)
+        const review = IfoodClientUtils.handlerResponse<ReviewResponse[]>(reviewResponse)
+        reviews.push(...review)
       }
+      return reviews
 
-      return await Promise.all(promises)
     } catch (error) {
       IfoodClientReview.logger.error(error)
     }
@@ -82,7 +91,7 @@ export default class IfoodClientReview {
       })
       const firstReviewResponseData = IfoodClientUtils.handlerResponse<ReviewResponse>(
         firstReviewResponse,
-      ) 
+      )
       const reviews = (await this.getAllReviews(
         args,
         firstReviewResponseData.pageCount,
@@ -90,10 +99,10 @@ export default class IfoodClientReview {
       ))
       return [
         firstReviewResponseData,
-        ...reviews.map(r => IfoodClientUtils.handlerResponse<ReviewResponse>(r))
+        ...reviews
       ]
     } catch (error) {
-        IfoodClientReview.logger.error(error)
+      IfoodClientReview.logger.error(error)
     }
     throw new IfoodGetReviewsError(
       `Get error when trying to get merchant reviews from merchant ${args.merchantId}`,

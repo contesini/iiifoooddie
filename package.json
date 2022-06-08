@@ -1,9 +1,8 @@
 {
   "name": "iiifoooddie",
-  "version": "0.0.2",
+  "version": "0.0.41",
   "description": "sdk for ifood api",
-  "main": "./lib/main.umd.ts",
-  "module": "./lib/main.es.js",
+  "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
     "start": "node .",
@@ -48,7 +47,9 @@
   },
   "homepage": "",
   "dependencies": {
+    "@prisma/client": "^3.14.0",
     "axios": "^0.26.1",
+    "axios-retry": "^3.2.5",
     "dotenv": "^16.0.0",
     "ts-node": "^10.7.0",
     "tslib": "~2.3.1",

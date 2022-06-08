@@ -7,7 +7,7 @@ README.md
 build/
 docs/
 examples/
-lib/
+
 reports/
 support/
 test/
@@ -17,7 +17,7 @@ benchmark/
 ###########
 .npmignore
 /node_modules/
-
+.env
 # Logs #
 ########
 *.log

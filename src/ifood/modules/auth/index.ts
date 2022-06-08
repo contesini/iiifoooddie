@@ -7,6 +7,9 @@ import {
   IfoodInvalidClientSecretError,
 } from '../../errors/index'
 import axios from 'axios'
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, { retries: 3 });
 
 export default class IfoodClientAuth {
   private static logger = new Logger('ifood-client-auth')
@@ -19,6 +22,10 @@ export default class IfoodClientAuth {
     new IfoodClientUtils().formatURL('/authentication/v1.0/oauth/token')
 
   private static validateIfoodClientIdAndSecret = () => {
+    IfoodClientAuth.logger.debug(`IFOOD_CLIENT_ID ${IfoodClientAuth.clientId}`)
+    IfoodClientAuth.logger.debug(
+      `IFOOD_CLIENT_SECRET ${IfoodClientAuth.clientSecret.slice(0, 4)}`,
+    )
     if (IfoodClientAuth.clientId === undefined) {
       IfoodClientAuth.logger.error(
         'client id is undefined set env variable: IFOOD_CLIENT_ID',
@@ -35,10 +42,6 @@ export default class IfoodClientAuth {
         'invalid client id, check env IFOOD_CLIENT_SECRET',
       )
     }
-    IfoodClientAuth.logger.debug(`IFOOD_CLIENT_ID ${IfoodClientAuth.clientId}`)
-    IfoodClientAuth.logger.debug(
-      `IFOOD_CLIENT_SECRET ${IfoodClientAuth.clientSecret.slice(0, 4)}`,
-    )
   }
 
   public static getAuthParams(clientId?: string, clientSecret?: string): URLSearchParams {
@@ -62,10 +65,10 @@ export default class IfoodClientAuth {
         headers: IfoodClientUtils.getHeaders(),
         params,
       })
-      const token = IfoodClientUtils.handlerResponse<string>(resp)
+      const token = IfoodClientUtils.handlerResponse<any>(resp)
       if (token !== undefined) {
         IfoodClientAuth.logger.info('get token with sucess')
-        return token
+        return token.accessToken
       }
     } catch (error) {
       IfoodClientAuth.logger.error(error)

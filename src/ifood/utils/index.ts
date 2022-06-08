@@ -39,10 +39,9 @@ export default class IfoodClientUtils {
 
   public static handlerResponse<T>(resp: AxiosResponse<any, any>): T {
     if (resp.status === 200) {
-      IfoodClientUtils.logger.info(`get reponse ${JSON.stringify(resp)}`)
       return resp.data
     } else {
-      IfoodClientUtils.logger.error(`get response status ${resp.status}`)
+      IfoodClientUtils.logger.info(`get reponse ${JSON.stringify(resp.status)}`)
       throw new IfoodResponseFailedError(
         `response from ifood return status code ${resp.status}`,
       )
