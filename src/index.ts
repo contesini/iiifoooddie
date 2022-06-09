@@ -88,9 +88,9 @@ export default class IfoodClient {
 
       const [sales, salesError] = await this.getMerchantSales({ merchantId: merchant.id })
 
-      let [orders, ordersError] = [[], {}]
+      let orders = undefined
 
-      if (sales?.length) [orders, ordersError] = await this.getOrders([
+      if (sales?.length) orders = await this.getOrders([
         ...sales.map((sale: any) => sale.orderId),
       ])
 
@@ -98,7 +98,7 @@ export default class IfoodClient {
       if (operations) merchant.operations = operations as any
       if (interruptions) merchant.interruptions = interruptions as any
       if (sales) merchant.sales = sales
-      if (orders?.length) merchant.orders = orders as any
+      if (orders) merchant.orders = orders as any
       return [merchant, undefined]
     } catch (error) {
       return [undefined, error]
@@ -132,11 +132,11 @@ export default class IfoodClient {
         await new Promise(resolve => setTimeout(resolve, 1000))
         const orderPromise = await Promise.all(orderPromises).then(r => r.map(r => r[0]))
         count = 0
-        orders = [...orders, ...orderPromise ]
+        orders = [...orders, ...orderPromise]
       }
     }
     const orderPromise = await Promise.all(orderPromises).then(r => r.map(r => r[0]))
-    if(orderPromise.length) orders = [...orders, orderPromise]
+    if (orderPromise.length) orders = [...orders, orderPromise]
 
     return orders
   }
