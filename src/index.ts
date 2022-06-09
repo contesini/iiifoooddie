@@ -128,7 +128,7 @@ export default class IfoodClient {
       const orderId = ordersIds[index]
       orderPromises.push(this.getOrderById(orderId))
       count += 1
-      if (count === 5) {
+      if (count === 30) {
         await new Promise(resolve => setTimeout(resolve, 1000))
         const orderPromise = await Promise.all(orderPromises).then(r => r.map(r => r[0]))
         count = 0

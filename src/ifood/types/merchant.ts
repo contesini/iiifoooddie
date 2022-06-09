@@ -54,11 +54,12 @@ export type MerchantDetails = {
 export type MerchantOperationValidation = {
   id: string;
   code: string;
-  state: boolean;
-  message: {
+  state?: string;
+  message?: {
     title: string;
     subtitle: string;
     description: string;
+    priority: number;
   };
 }
 

@@ -217,8 +217,13 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/types/merchant.ts": {
-        "version": "ad1e8af397cd3ea5f4f1de7024f16949c8cb7252908816721c8e39fe76648ba2",
-        "signature": "49358064e25b1305ba60431027cff07cced2514457c82001be1b107a9df19cdb",
+        "version": "2b98a766e8e347b53072a4cfb039e77e4e892c04945225a908f933d78e096525",
+        "signature": "32c3e9981a464242fd95ac8fd8f31c0fdacaae386eb82be3890ae260216db6d2",
+        "affectsGlobalScope": false
+      },
+      "./src/ifood/types/auth.ts": {
+        "version": "b7ad7e599bb5339c8a2788926b60e5ba56e864454cefcffdc8591f0001f4a140",
+        "signature": "160b230e566f5150178ce3726c57bb0bf9d22d7a4b2e4bf24aacfa532de115a8",
         "affectsGlobalScope": false
       },
       "./src/utils/logger.ts": {
@@ -247,13 +252,13 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/auth/index.ts": {
-        "version": "bf9f8d76b6e6829d5fddbbc7e1e14b1238c8c356009fbb2763074f3d4a09b6cd",
-        "signature": "1729617e7eb59ed9c3c7386933afcc8c8406895a84de73bb8b107bc77a164e80",
+        "version": "a9486c9434d22620acb03ab3a2e14199dbf81ec87b386b6f4aa9a7ee62dedbbb",
+        "signature": "201f84564908bd208865c8fad471bfce287e1cfc3dc2b2f0edcf3ff9b60ca87c",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/auth/bus.ts": {
-        "version": "e5f9799271d456ab6446516c5d3260b3426fc29f5f1961286a12bbbd840863c9",
-        "signature": "5932963da32c73de9baf81fc407dde7775996bf2c6e01745f0211d39ea6f29b1",
+        "version": "2efaa1897d899bf357cbfea913ee7e3923fde5017daa14a3adae64d01b6ced50",
+        "signature": "9cc74e7b44612cb8dfac04c98a5d7d91e229aace17afbf90fe3c41b7b49c4c58",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/financial/index.ts": {
@@ -282,8 +287,8 @@
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "b84fa5de1eb85765c675e6ba5d51f739aca859eb0ff7ac90e4292f1802099df4",
-        "signature": "4b4e18eb432902f5d04c8f4bf90427b926b1a618c5592ef0afa12ee4e0d07e39",
+        "version": "9274afd6ead612422ef17ba3bb26db9cea4cdc64952b69622ca4b70d35bd5979",
+        "signature": "dc946b12a37e04e8ddc9fb33e6f21f51bc377094bf28820a3c01fe3e273f474b",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/assert.d.ts": {
@@ -604,6 +609,7 @@
       "esModuleInterop": true,
       "pretty": true,
       "skipLibCheck": true,
+      "noEmit": false,
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
@@ -1102,6 +1108,7 @@
       "./src/ifood/modules/auth/bus.ts": [
         "./node_modules/@types/node/util.d.ts",
         "./src/ifood/modules/auth/index.ts",
+        "./src/ifood/types/auth.ts",
         "./src/utils/logger.ts"
       ],
       "./src/ifood/modules/auth/index.ts": [
@@ -1109,6 +1116,7 @@
         "./node_modules/axios-retry/index.d.ts",
         "./node_modules/axios/index.d.ts",
         "./src/ifood/errors/index.ts",
+        "./src/ifood/types/auth.ts",
         "./src/ifood/utils/index.ts",
         "./src/utils/logger.ts"
       ],
@@ -1148,6 +1156,9 @@
         "./src/utils/logger.ts"
       ],
       "./src/ifood/types/address.ts": [
+        "./node_modules/@types/node/util.d.ts"
+      ],
+      "./src/ifood/types/auth.ts": [
         "./node_modules/@types/node/util.d.ts"
       ],
       "./src/ifood/types/merchant.ts": [
@@ -1680,6 +1691,12 @@
       "./node_modules/typescript/lib/lib.webworker.importscripts.d.ts": [
         "./node_modules/@types/node/util.d.ts"
       ],
+      "./src/ifood/modules/auth/bus.ts": [
+        "./src/ifood/types/auth.ts"
+      ],
+      "./src/ifood/modules/auth/index.ts": [
+        "./src/ifood/types/auth.ts"
+      ],
       "./src/ifood/modules/financial/index.ts": [
         "./node_modules/axios/index.d.ts",
         "./src/ifood/types/merchant.ts"
@@ -1820,6 +1837,7 @@
       "./src/ifood/modules/order/index.ts",
       "./src/ifood/modules/reviews/index.ts",
       "./src/ifood/types/address.ts",
+      "./src/ifood/types/auth.ts",
       "./src/ifood/types/merchant.ts",
       "./src/ifood/types/order.ts",
       "./src/ifood/types/reviews.ts",

@@ -8,6 +8,7 @@ import {
 } from '../../errors/index'
 import axios from 'axios'
 import axiosRetry from 'axios-retry';
+import { Authentication } from 'src/ifood/types/auth';
 
 axiosRetry(axios, { retries: 3 });
 
@@ -65,10 +66,15 @@ export default class IfoodClientAuth {
         headers: IfoodClientUtils.getHeaders(),
         params,
       })
-      const token = IfoodClientUtils.handlerResponse<any>(resp)
+      const token = IfoodClientUtils.handlerResponse<Authentication>(resp)
       if (token !== undefined) {
         IfoodClientAuth.logger.info('get token with sucess')
-        return token.accessToken
+        IfoodClientAuth.logger.info(`expires in ${token.expiresIn}`)
+
+        token.expiresIn = Date.now() + ((token.expiresIn - 1)  * 1000)
+
+        IfoodClientAuth.logger.info(`expiration timestamp: ${token.expiresIn}`)
+        return token
       }
     } catch (error) {
       IfoodClientAuth.logger.error(error)

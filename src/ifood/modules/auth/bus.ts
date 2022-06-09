@@ -1,3 +1,4 @@
+import { Authentication } from 'src/ifood/types/auth'
 import Logger from '../../../utils/logger'
 import IfoodClientAuth from './index'
 
@@ -9,7 +10,11 @@ export default class AuthEventBus {
 
   private logger = new Logger('auth-event-bus')
 
-  private token: string = ''
+  private token: Authentication = {
+    accessToken: '',
+    type: '',
+    expiresIn: 0,
+  }
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -32,17 +37,17 @@ export default class AuthEventBus {
     return AuthEventBus.instance
   }
 
-  public setToken(token?: string) {
+  public setToken(token?: Authentication) {
     this.logger.info('set new token')
-    if (token === undefined || token === '') throw new Error('Invalid token')
+    if (token === undefined || token.accessToken === '') throw new Error('Invalid token')
     this.token = token
   }
 
   public async getToken() {
-    if (this.token === '') {
+    if (this.token.accessToken === '' || this.token.expiresIn < Date.now()) {
       this.token = await IfoodClientAuth.authenticate()
     }
-    return this.token
+    return this.token.accessToken
   }
 
 }
