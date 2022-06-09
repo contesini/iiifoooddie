@@ -130,14 +130,14 @@ export default class IfoodClient {
       count += 1
       if (count === 5) {
         await new Promise(resolve => setTimeout(resolve, 1000))
-        const orderPromise = await Promise.all(orderPromises).then(r => r)
+        const orderPromise = await Promise.all(orderPromises).then(r => r[0])
         count = 0
         orders = [...orders, ...orderPromise ]
       }
     }
-    const orderPromise = await Promise.all(orderPromises).then(r => r)
+    const orderPromise = await Promise.all(orderPromises).then(r => r[0])
     if(orderPromise.length) orders = [...orders, orderPromise]
-    
+
     return orders
   }
 
