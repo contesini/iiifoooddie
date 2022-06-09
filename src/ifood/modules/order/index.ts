@@ -31,7 +31,7 @@ export default class IfoodClientOrder {
   public static async getOrderById(id: string, token: string) {
     if (token === undefined) throw new IfoodInvalidClientToken("invalid token");
     IfoodClientOrder.logger.info(`getOrderById id: ${id}`);
-    const params = IfoodClientUtils.getParamsFromArgs({ id, token });
+    const params = IfoodClientUtils.getParamsFromArgs({ id });
     try {
       this.sleep(45)
       const response = await axios({

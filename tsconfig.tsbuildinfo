@@ -252,7 +252,7 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/auth/index.ts": {
-        "version": "a9486c9434d22620acb03ab3a2e14199dbf81ec87b386b6f4aa9a7ee62dedbbb",
+        "version": "29c1c2194239e13f8344899d51192bf9b4e0f6b67a249267641f3d5412eecaf7",
         "signature": "201f84564908bd208865c8fad471bfce287e1cfc3dc2b2f0edcf3ff9b60ca87c",
         "affectsGlobalScope": false
       },
@@ -262,17 +262,17 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/financial/index.ts": {
-        "version": "c2711fbaa3fbc8bb1d5b1b73af458332467a03f0d018ee5aa8ee01bc945a126d",
+        "version": "ab18c83a135b25cd8e6b16300e029834999d7eb050702f0d7da592ace3ce76bc",
         "signature": "c023ea6092d64db399f1aa86bd09f104cdb70e634d6a9bebbd1b5722ce7f78d2",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/merchants/index.ts": {
-        "version": "ad7b78dafbe9a59eb5e20be284f5d245ba4e97d432a3c6a9749bbce97c905cfc",
+        "version": "c41b1ee3e806aa4428143fdc994fb2f22190fea442c1ad34d661a87c8460873f",
         "signature": "92ae88ac3ee12bd2e6ac933229063b11d92ef8a040ff35cf174f4a4f1b793766",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/order/index.ts": {
-        "version": "d9953d1541312e460aa06328d6a171760f9efcdcc32e585c975e1329392f1c83",
+        "version": "1f44619c99e1b5b80a5e32b4e61973e1abe32db90931c714bbbde32cf8956908",
         "signature": "8a1d14091709b913066df9998ed634b1d580d43a461231f82180f97d297df6a3",
         "affectsGlobalScope": false
       },
@@ -282,7 +282,7 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/reviews/index.ts": {
-        "version": "eb40c992415b1be9fc5bcb91393d1313616c54344ed2a7a1fa2a38a187d68745",
+        "version": "8128d3709a7565f615a5fcee5d77dba55fd51ccc6c8a8f70c722fc7e36bef17e",
         "signature": "d6ecf98767a3345236e2bd9e80d0138cf54409b177549d4b89376fbac17df7e1",
         "affectsGlobalScope": false
       },
