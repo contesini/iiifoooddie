@@ -126,7 +126,7 @@ export default class IfoodClient {
     let count = 0
     for (let index = 0; index < ordersIds.length; index++) {
       const orderId = ordersIds[index]
-      orderPromises.push(await this.getOrderById(orderId))
+      orderPromises.push(this.getOrderById(orderId))
       count += 1
       if (count === 5) {
         await new Promise(resolve => setTimeout(resolve, 1000))
@@ -135,6 +135,9 @@ export default class IfoodClient {
         orders = [...orders, ...orderPromise ]
       }
     }
+    const orderPromise = await Promise.all(orderPromises).then(r => r)
+    if(orderPromise.length) orders = [...orders, orderPromise]
+    
     return orders
   }
 
