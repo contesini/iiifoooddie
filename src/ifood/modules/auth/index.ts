@@ -6,11 +6,20 @@ import {
   IfoodInvalidClientIdError,
   IfoodInvalidClientSecretError,
 } from '../../errors/index'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import axiosRetry from 'axios-retry';
 import { Authentication } from 'src/ifood/types/auth';
 
-axiosRetry(axios, { retries: 3 });
+axiosRetry(axios, { 
+  retries: 3,
+  retryCondition: (error: AxiosError) => {
+    if (error.code == "429"){
+      console.error("[Ifood] - Too many requests...");
+      return false;
+    }
+    return true
+  }
+});
 
 export default class IfoodClientAuth {
   private static logger = new Logger('ifood-client-auth')

@@ -1,11 +1,20 @@
 import Logger from '../../../utils/logger'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import IfoodClientUtils from '../../utils'
 import { IfoodGetOrderError, IfoodInvalidClientToken } from '../../errors'
 
 import axiosRetry from 'axios-retry';
 
-axiosRetry(axios, { retries: 3 });
+axiosRetry(axios, { 
+  retries: 3,
+  retryCondition: (error: AxiosError) => {
+    if (error.code == "429"){
+      console.error("[Ifood] - Too many requests...");
+      return false;
+    }
+    return true
+  }
+});
 
 
 

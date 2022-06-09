@@ -1,12 +1,21 @@
 import Logger from '../../../utils/logger'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import IfoodClientUtils from '../../utils'
 import { Review, ReviewResponse } from '../../types/reviews'
 import { IfoodGetReviewError, IfoodGetReviewsError, IfoodInvalidClientToken } from '../../errors'
 import { MerchantReviewInput, MerchantReviewsInput } from '../../types/merchant'
 import axiosRetry from 'axios-retry';
 
-axiosRetry(axios, { retries: 3 });
+axiosRetry(axios, { 
+  retries: 3,
+  retryCondition: (error: AxiosError) => {
+    if (error.code == "429"){
+      console.error("[Ifood] - Too many requests...");
+      return false;
+    }
+    return true
+  }
+});
 export default class IfoodClientReview {
   private static logger = new Logger('ifood-client-review')
 

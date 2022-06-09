@@ -1,12 +1,21 @@
 import {MerchantSalesInput} from '../../types/merchant'
 
 import Logger from '../../../utils/logger'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import axiosRetry from 'axios-retry';
 import IfoodClientUtils from '../../utils'
 import {  IfoodGetMerchantSalesError, IfoodInvalidClientToken } from '../../errors'
 
-axiosRetry(axios, { retries: 3 });
+axiosRetry(axios, { 
+  retries: 3,
+  retryCondition: (error: AxiosError) => {
+    if (error.code == "429"){
+      console.error("[Ifood] - Too many requests...");
+      return false;
+    }
+    return true
+  }
+});
 
 export default class IfoodClientFinancial {
   private static logger = new Logger('ifood-client-financial')
