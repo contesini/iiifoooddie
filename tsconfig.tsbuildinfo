@@ -207,8 +207,8 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/types/order.ts": {
-        "version": "0dd170dec86b39a17a039c28c435e54632fab63eb8e1c18e03196ea7ea85d0d2",
-        "signature": "9f81d0b2057691ccedc34bcc14d613f8ad327694734399a5ac8ba69cbbccd059",
+        "version": "4edc72b814c9b2ab9b9d5393c3f5a8f047e172a74b5118a63acd1cbdd82734af",
+        "signature": "7a8544f6a0bb0f84f2ac2df9ac9a7cc101d0c48d7bb14b377d3ecc4a2d0831a4",
         "affectsGlobalScope": false
       },
       "./src/ifood/types/sales.ts": {

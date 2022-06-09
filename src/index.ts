@@ -35,17 +35,17 @@ export default class IfoodClient {
   private reviews = () => IfoodClientReview
 
   constructor() {
-    
+
   }
 
-    /**
-   * Se clientId e clientSecret não forem passados via parametro como fallback
-   * tenta ler os valores das variaveis de ambiente
-   * @param  {string=} clientId [description]
-   * @param  {string=} clientSecret [description]
+  /**
+ * Se clientId e clientSecret não forem passados via parametro como fallback
+ * tenta ler os valores das variaveis de ambiente
+ * @param  {string=} clientId [description]
+ * @param  {string=} clientSecret [description]
 
-   * @return {Promise<void>}     [description]
-   */
+ * @return {Promise<void>}     [description]
+ */
   public async authenticate(clientId?: string, clientSecret?: string): Promise<void> {
     const token = await IfoodClientAuth.authenticate(clientId, clientSecret)
     this.authEventBus.setToken(token)
@@ -60,9 +60,9 @@ export default class IfoodClient {
 
   public async getMerchantReviews(args: MerchantReviewsInput) {
     return await this.reviews()
-    .getMerchantReviews(args, await this.token())
-    .then(r => [r, undefined])
-    .catch(e => [undefined, e])
+      .getMerchantReviews(args, await this.token())
+      .then(r => [r, undefined])
+      .catch(e => [undefined, e])
   }
 
   public async getMerchants() {
@@ -81,29 +81,30 @@ export default class IfoodClient {
 
   public async getMerchantDetailsStatusAndInterruptions(merchant: Merchant) {
     try {
-      
+
       const [details, detailsError] = await this.getMerchantDetails(merchant.id)
       const [operations, operationsError] = await this.getMerchantStatus(merchant.id)
-    const [interruptions, interruptionsError] = await this.getMerchantInterruptions(merchant.id)
-    
-    const [sales, salesError] = await this.getMerchantSales({ merchantId: merchant.id })
+      const [interruptions, interruptionsError] = await this.getMerchantInterruptions(merchant.id)
 
-    let [orders, ordersError] = [{}, {}]
-    
-    if(sales?.length) [orders, ordersError] = await this.getOrders([
-      ...sales.map((sale: any) => sale.orderId),
-    ])
-    
-    if(details) merchant.details = details
-    if(operations) merchant.operations = operations as any
-    if(interruptions) merchant.interruptions = interruptions as any
-    if(sales) merchant.sales = sales
-    return [merchant, undefined]
-  } catch (error) {
-    return [undefined, error]
+      const [sales, salesError] = await this.getMerchantSales({ merchantId: merchant.id })
+
+      let [orders, ordersError] = [[], {}]
+
+      if (sales?.length) [orders, ordersError] = await this.getOrders([
+        ...sales.map((sale: any) => sale.orderId),
+      ])
+
+      if (details) merchant.details = details
+      if (operations) merchant.operations = operations as any
+      if (interruptions) merchant.interruptions = interruptions as any
+      if (sales) merchant.sales = sales
+      if (orders?.length) merchant.orders = orders as any
+      return [merchant, undefined]
+    } catch (error) {
+      return [undefined, error]
+    }
   }
-  }
-  
+
   public async getMerchantInterruptions(id: string) {
     return await this.merchants()
       .getMerchantInterruptions(id, await this.token())
@@ -120,10 +121,19 @@ export default class IfoodClient {
 
 
   private async getOrders(ordersIds: string[]) {
-    const orders = []
+    let orders: any[] = []
+    const orderPromises = []
+    let count = 0
     for (let index = 0; index < ordersIds.length; index++) {
       const orderId = ordersIds[index]
-      orders.push(await this.getOrderById(orderId))
+      orderPromises.push(await this.getOrderById(orderId))
+      count += 1
+      if (count === 5) {
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        const orderPromise = await Promise.all(orderPromises).then(r => r)
+        count = 0
+        orders = [...orders, ...orderPromise ]
+      }
     }
     return orders
   }
