@@ -14,6 +14,8 @@ describe("ifood-client-auth", () => {
       status: 200,
       data: {
         accessToken: "xpto-token",
+        expiresIn: 3600,
+        type: "bearer",
       },
     };
 
@@ -21,7 +23,7 @@ describe("ifood-client-auth", () => {
 
     // when
     const result = await IfoodClientAuth.authenticate();
-    expect(result).toEqual(token.data.accessToken);
+    expect(result.accessToken).toEqual(token.data.accessToken);
   });
   it("should return error when credentials is invalid", async () => {
     // given
