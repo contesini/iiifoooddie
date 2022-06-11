@@ -31,12 +31,12 @@ export default class IfoodClientFinancial {
       const argKey = argsKeys[index];
       params.append(argKey, args[argKey]);
     }
-    const beginLastProcessingDate = new Date(
-      new Date().setDate(new Date().getDate() - 8),
-    )
-      .toISOString()
-      .split('T')[0];
-    const endLastProcessingDate = new Date().toISOString().split('T')[0];
+    // const beginLastProcessingDate = new Date(
+    //   new Date().setDate(new Date().getDate() - 8),
+    // )
+    //   .toISOString()
+    //   .split('T')[0];
+    // const endLastProcessingDate = new Date().toISOString().split('T')[0];
     const beginOrderDate = new Date(
       new Date().setDate(new Date().getDate() - 8),
     )
@@ -44,16 +44,16 @@ export default class IfoodClientFinancial {
       .split('T')[0];
     const endOrderDate = new Date().toISOString().split('T')[0];
 
-    IfoodClientUtils.appendKeyIfNoExists(
-      params,
-      'beginLastProcessingDate',
-      beginLastProcessingDate,
-    );
-    IfoodClientUtils.appendKeyIfNoExists(
-      params,
-      'endLastProcessingDate',
-      endLastProcessingDate,
-    );
+    // IfoodClientUtils.appendKeyIfNoExists(
+    //   params,
+    //   'beginLastProcessingDate',
+    //   beginLastProcessingDate,
+    // );
+    // IfoodClientUtils.appendKeyIfNoExists(
+    //   params,
+    //   'endLastProcessingDate',
+    //   endLastProcessingDate,
+    // );
     IfoodClientUtils.appendKeyIfNoExists(params, 'beginOrderDate', beginOrderDate);
     IfoodClientUtils.appendKeyIfNoExists(params, 'endOrderDate', endOrderDate);
 

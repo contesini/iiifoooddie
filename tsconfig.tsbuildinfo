@@ -262,7 +262,7 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/financial/index.ts": {
-        "version": "ab18c83a135b25cd8e6b16300e029834999d7eb050702f0d7da592ace3ce76bc",
+        "version": "bfdea06cf69a18c6a3a662b7414880f41cf5e5d2ead3b5cbee2315e38c925bac",
         "signature": "c023ea6092d64db399f1aa86bd09f104cdb70e634d6a9bebbd1b5722ce7f78d2",
         "affectsGlobalScope": false
       },
