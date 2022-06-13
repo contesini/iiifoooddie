@@ -1,6 +1,6 @@
 {
   "name": "iiifoooddie",
-  "version": "0.0.71",
+  "version": "0.0.72",
   "description": "sdk for ifood api",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

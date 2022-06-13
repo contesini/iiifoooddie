@@ -10,10 +10,10 @@ import {
 } from '../../errors'
 import axiosRetry from 'axios-retry';
 
-axiosRetry(axios, { 
+axiosRetry(axios, {
   retries: 3,
   retryCondition: (error: AxiosError) => {
-    if (error.code == "429"){
+    if (error.code == "429") {
       console.error("[Ifood] - Too many requests...");
       return false;
     }
@@ -90,10 +90,7 @@ export default class IfoodClientMerchant {
     )
   }
 
-  public static async getMerchantStatus(
-    id: string,
-    token: string,
-  ): Promise<AxiosResponse<any, any>> {
+  public static async getMerchantStatus(id: string, token: string): Promise<AxiosResponse<any, any>> {
     if (token === undefined || token === '')
       throw new IfoodInvalidClientToken('invalid token')
     IfoodClientMerchant.logger.info(`getMerchantStatus for id: ${id}`)
@@ -112,10 +109,7 @@ export default class IfoodClientMerchant {
     )
   }
 
-  public static async getMerchantInterruptions(
-    id: string,
-    token: string,
-  ): Promise<AxiosResponse<any, any>> {
+  public static async getMerchantInterruptions(id: string, token: string): Promise<AxiosResponse<any, any>> {
     if (token === undefined || token === '')
       throw new IfoodInvalidClientToken('invalid token')
     IfoodClientMerchant.logger.info(`getMerchantInterruptions for id: ${id}`)

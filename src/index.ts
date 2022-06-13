@@ -58,6 +58,20 @@ export default class IfoodClient {
       .catch(e => [undefined, e])
   }
 
+  public async getMerchantSalesCancellations(args: MerchantSalesInput) {
+    return await this.financial()
+      .getMerchantSalesCancellations(args, await this.token())
+      .then((r) => [IfoodClientUtils.handlerResponse<Sales[]>(r), undefined])
+      .catch(e => [undefined, e])
+  }
+
+  public async getMerchantSalesChargeCancellations(args: MerchantSalesInput) {
+    return await this.financial()
+      .getMerchantSalesChargeCancellations(args, await this.token())
+      .then((r) => [IfoodClientUtils.handlerResponse<Sales[]>(r), undefined])
+      .catch(e => [undefined, e])
+  }
+
   public async getMerchantReviews(args: MerchantReviewsInput) {
     return await this.reviews()
       .getMerchantReviews(args, await this.token())
