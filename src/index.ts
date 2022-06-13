@@ -136,7 +136,7 @@ export default class IfoodClient {
 
   private async getOrders(ordersIds: string[]) {
     let orders: any[] = []
-    const orderPromises = []
+    let orderPromises = []
     let count = 0
     for (let index = 0; index < ordersIds.length; index++) {
       const orderId = ordersIds[index]
@@ -147,10 +147,11 @@ export default class IfoodClient {
         const orderPromise = await Promise.all(orderPromises).then(r => r.map(r => r[0]))
         count = 0
         orders = [...orders, ...orderPromise]
+        orderPromises = []
       }
     }
     const orderPromise = await Promise.all(orderPromises).then(r => r.map(r => r[0]))
-    if (orderPromise.length) orders = [...orders, orderPromise]
+    if (orderPromise.length) orders = [...orders, ...orderPromise]
 
     return orders
   }
