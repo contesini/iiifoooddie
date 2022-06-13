@@ -150,8 +150,7 @@ export default class IfoodClient {
         orderPromises = []
       }
     }
-    const orderPromise = await Promise.all(orderPromises).then(r => r.map(r => r[0]))
-    if (orderPromise.length) orders = [...orders, ...orderPromise]
+    if (orderPromises.length) await Promise.all(orderPromises).then(r => r.map(r => orders.push(...r[0])))
 
     return orders
   }
