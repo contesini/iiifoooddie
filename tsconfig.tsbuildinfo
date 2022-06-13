@@ -242,7 +242,7 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/utils/index.ts": {
-        "version": "d96767af2906b0e148e6e90f96b568f1b0f172cdb1815b59986cdc7b1056774f",
+        "version": "c8bd7ea67f599b367cd0fad5ae8627bf0080571b62589f0c165f2c39a06eeed1",
         "signature": "b7e7489e99443a6ab20f2b9af589fd92081ab7ddccb30318fc7b3f1fda67f064",
         "affectsGlobalScope": false
       },
@@ -287,7 +287,7 @@
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "c33d9ced629db2111df54e8f92e3196f5cbe7bfdeb13d702396dc0adf1211a4c",
+        "version": "29181d53f255c66c2713fddbc91e352a1fb1f70241530b54e54cc8a91fdd4e4c",
         "signature": "252cca6f5a4dc2b5e822707061a14383f88aab24c6ddfb430491aad6823982eb",
         "affectsGlobalScope": false
       },

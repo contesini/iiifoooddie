@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 
 import Logger from '../../utils/logger'
-import {IfoodResponseFailedError} from '../errors/index'
+import { IfoodResponseFailedError } from '../errors/index'
 
 export default class IfoodClientUtils {
 
@@ -58,5 +58,5 @@ export default class IfoodClientUtils {
       params.append(key, value);
     }
   }
-  
+
 }

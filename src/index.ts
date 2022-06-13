@@ -135,23 +135,19 @@ export default class IfoodClient {
 
 
   private async getOrders(ordersIds: string[]) {
-    let orders: any[] = []
-    let orderPromises = []
-    let count = 0
-    for (let index = 0; index < ordersIds.length; index++) {
-      const orderId = ordersIds[index]
-      orderPromises.push(this.getOrderById(orderId))
-      count += 1
-      if (count === 30) {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        await Promise.all(orderPromises).then(r => r.map(r => orders.push(...r[0])))
-        count = 0
-        orderPromises = []
-      }
+    let chunks: any[] = []
+    const chunkSize = 30;
+    for (let i = 0; i < ordersIds.length; i += chunkSize) {
+      const chunk = ordersIds.slice(i, i + chunkSize);
+      chunks = [...chunks, chunk.map(async (orderId: string) => this.getOrderById(orderId).then(r => r[0]))]
     }
-    if (orderPromises.length) await Promise.all(orderPromises).then(r => r.map(r => orders.push(...r[0])))
 
-    return orders
+    let chunks_resp: any[] = []
+    for (let i = 0; i < chunks.length; i++) {
+      const resp = await Promise.all(chunks[i])
+      chunks_resp = [...chunks_resp, ...resp]
+    }
+    return chunks_resp
   }
 
   public async getOrderById(id: string) {
