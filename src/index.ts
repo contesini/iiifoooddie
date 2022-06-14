@@ -5,6 +5,8 @@ import {
   MerchantOperation,
   MerchantReviewInput,
   MerchantReviewsInput,
+  MerchantSalesCancellationsInput,
+  MerchantSalesChargeCancellationsInput,
   MerchantSalesInput,
 } from './ifood/types/merchant'
 
@@ -51,6 +53,10 @@ export default class IfoodClient {
     this.authEventBus.setToken(token)
   }
 
+  private async sleep(ms: number) {
+    return await new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   public async getMerchantSales(args: MerchantSalesInput) {
     return await this.financial()
       .getMerchantSales(args, await this.token())
@@ -58,14 +64,14 @@ export default class IfoodClient {
       .catch(e => [undefined, e])
   }
 
-  public async getMerchantSalesCancellations(args: MerchantSalesInput) {
+  public async getMerchantSalesCancellations(args: MerchantSalesCancellationsInput) {
     return await this.financial()
       .getMerchantSalesCancellations(args, await this.token())
       .then((r) => [IfoodClientUtils.handlerResponse<Sales[]>(r), undefined])
       .catch(e => [undefined, e])
   }
 
-  public async getMerchantSalesChargeCancellations(args: MerchantSalesInput) {
+  public async getMerchantSalesChargeCancellations(args: MerchantSalesChargeCancellationsInput) {
     return await this.financial()
       .getMerchantSalesChargeCancellations(args, await this.token())
       .then((r) => [IfoodClientUtils.handlerResponse<Sales[]>(r), undefined])
@@ -145,6 +151,7 @@ export default class IfoodClient {
     let chunks_resp: any[] = []
     for (let i = 0; i < chunks.length; i++) {
       const resp = await Promise.all(chunks[i])
+      await this.sleep(1000)
       chunks_resp = [...chunks_resp, ...resp]
     }
     return chunks_resp

@@ -12,18 +12,25 @@ export type MerchantSalesInput = {
   orderStatus?: string;
 };
 
-export type MerchantSalesCancellationsInput = {
-  merchantId: string;
+
+export type MerchantSalesCancellationsParams = {
   periodId?: string;
   beginCancellationDate?: Date;
   endCancellationDate?: Date;
+}
+
+export type MerchantSalesCancellationsInput = MerchantSalesCancellationsParams & {
+  merchantId: string;
 };
 
-export type MerchantSalesChargeCancellationsInput = {
-  merchantId: string;
+export type MerchantSalesChargeCancellationsParams = {
   periodId?: string;
   transactionDateBegin?: Date;
   transactionDateEnd?: Date;
+};
+
+export type MerchantSalesChargeCancellationsInput = MerchantSalesChargeCancellationsParams & {
+  merchantId: string;
 };
 
 export type MerchantReviewsInput = {
@@ -93,6 +100,12 @@ export type MerchantOperation = {
     subtitle: string;
     description: string;
   };
+}
+
+export type MerchantResume = {
+  id: string;
+  name: string;
+  corporateName: string;
 }
 
 export type Merchant = {

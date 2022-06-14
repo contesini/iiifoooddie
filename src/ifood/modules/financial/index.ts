@@ -1,4 +1,4 @@
-import { MerchantSalesCancellationsInput, MerchantSalesChargeCancellationsInput, MerchantSalesInput } from '../../types/merchant'
+import { MerchantResume, MerchantSalesCancellationsInput, MerchantSalesCancellationsParams, MerchantSalesChargeCancellationsInput, MerchantSalesChargeCancellationsParams, MerchantSalesInput } from '../../types/merchant'
 
 import Logger from '../../../utils/logger'
 import axios, { AxiosError, AxiosResponse } from 'axios'
@@ -23,11 +23,11 @@ export default class IfoodClientFinancial {
   private static MERCHANTS_SALES_GET_PATH = (id: string) =>
     new IfoodClientUtils().formatURL(`/financial/v1.0/merchants/${id}/sales`);
 
-  private static MERCHANTS_SALES_CHARGE_CANCELATIONS_GET_PATH = (id: string) =>
-    new IfoodClientUtils().formatURL(`/financial/v1.0/merchants/${id}/sales`);
+  private static MERCHANTS_SALES_CHARGE_CANCELLATIONS_GET_PATH = (id: string) =>
+    new IfoodClientUtils().formatURL(`financial/v1.0/merchants/${id}/chargeCancellations`);
 
-  private static MERCHANTS_SALES_CANCELATIONS_GET_PATH = (id: string) =>
-    new IfoodClientUtils().formatURL(`/financial/v1.0/merchants/${id}/sales`);
+  private static MERCHANTS_SALES_CANCELLATIONS_GET_PATH = (id: string) =>
+    new IfoodClientUtils().formatURL(`financial/v1.0/merchants/${id}/cancellations`);
 
   private static getMerchantSalesParams(args: MerchantSalesInput) {
     this.logger.info('getMerchantSalesParams')
@@ -66,7 +66,7 @@ export default class IfoodClientFinancial {
     return params;
   }
 
-  private static getMerchantSalesCancellationsParams(args: MerchantSalesCancellationsInput) {
+  private static getMerchantSalesCancellationsParams(args: MerchantSalesCancellationsParams) {
     this.logger.info('getMerchantSalesCancellationsParams')
     const params = new URLSearchParams();
     const argsKeys = Object.keys(args) as [];
@@ -87,7 +87,7 @@ export default class IfoodClientFinancial {
     return params;
   }
 
-  private static getMerchantSalesChargeCancellationsParams(args: MerchantSalesCancellationsInput) {
+  private static getMerchantSalesChargeCancellationsParams(args: MerchantSalesChargeCancellationsParams) {
     this.logger.info('getMerchantSalesCancellationsParams')
     const params = new URLSearchParams();
     const argsKeys = Object.keys(args) as [];
@@ -132,35 +132,38 @@ export default class IfoodClientFinancial {
     );
   }
 
-  public static async getMerchantSalesCancellations(args: MerchantSalesCancellationsInput,
+  public static async getMerchantSalesCancellations({ merchantId, ...args }: MerchantSalesCancellationsInput,
     token: string): Promise<AxiosResponse<any, any>> {
-    this.logger.info(`getMerchantSalesCancellations for merchantId: ${args.merchantId}`);
+    if (token === undefined || token === '') throw new IfoodInvalidClientToken("invalid token");
+    this.logger.info(`getMerchantSalesCancellations for merchantId: ${merchantId}`);
     const params = this.getMerchantSalesCancellationsParams(args);
 
     try {
       const resp = await axios({
-        url: this.MERCHANTS_SALES_CANCELATIONS_GET_PATH(args.merchantId),
-        method: 'GET',
-        params,
+        url: this.MERCHANTS_SALES_CANCELLATIONS_GET_PATH(merchantId),
+        headers: IfoodClientUtils.getHeaders(token),
+        method: 'GET'
       });
       return resp
     } catch (error) {
       console.error(error);
     }
     throw new IfoodGetMerchantSalesError(
-      `Get error when trying to get merchant sales cancellations from merchant ${args.merchantId}`,
+      `Get error when trying to get merchant sales cancellations from merchant ${merchantId}`,
     );
   }
 
-  public static async getMerchantSalesChargeCancellations(args: MerchantSalesChargeCancellationsInput,
+  public static async getMerchantSalesChargeCancellations({ merchantId, ...args }: MerchantSalesChargeCancellationsInput,
     token: string): Promise<AxiosResponse<any, any>> {
-    this.logger.info(`getMerchantSalesChargeCancellations for merchantId: ${args.merchantId}`);
+    if (token === undefined || token === '') throw new IfoodInvalidClientToken("invalid token");
+    this.logger.info(`getMerchantSalesChargeCancellations for merchantId: ${merchantId}`);
     const params = this.getMerchantSalesChargeCancellationsParams(args);
 
     try {
       const resp = await axios({
-        url: this.MERCHANTS_SALES_CHARGE_CANCELATIONS_GET_PATH(args.merchantId),
+        url: this.MERCHANTS_SALES_CHARGE_CANCELLATIONS_GET_PATH(merchantId),
         method: 'GET',
+        headers: IfoodClientUtils.getHeaders(token),
         params,
       });
       return resp
@@ -168,7 +171,7 @@ export default class IfoodClientFinancial {
       console.error(error);
     }
     throw new IfoodGetMerchantSalesError(
-      `Get error when trying to get merchant sales charge cancellations from merchant ${args.merchantId}`,
+      `Get error when trying to get merchant sales charge cancellations from merchant ${merchantId}`,
     );
   }
 }
