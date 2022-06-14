@@ -5,10 +5,10 @@ import { IfoodGetOrderError, IfoodInvalidClientToken } from '../../errors'
 
 import axiosRetry from 'axios-retry';
 
-axiosRetry(axios, { 
+axiosRetry(axios, {
   retries: 3,
   retryCondition: (error: AxiosError) => {
-    if (error.code == "429"){
+    if (error.code == "429") {
       console.error("[Ifood] - Too many requests...");
       return false;
     }
@@ -22,7 +22,7 @@ export default class IfoodClientOrder {
   private static logger = new Logger('ifood-client-order')
 
   public static ORDER_GET_PATH = (id: string) =>
-   new IfoodClientUtils().formatURL(`/order/v1.0/orders/${id}`);
+    new IfoodClientUtils().formatURL(`/order/v1.0/orders/${id}`);
 
   private static async sleep(ms: number) {
     return await new Promise(resolve => setTimeout(resolve, ms));
@@ -48,5 +48,5 @@ export default class IfoodClientOrder {
       `Get error when trying to get merchant reviews from merchant ${id}`,
     );
   }
-  
+
 }

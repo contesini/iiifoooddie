@@ -5,6 +5,8 @@ import {
   MerchantOperation,
   MerchantReviewInput,
   MerchantReviewsInput,
+  MerchantSalesCancellationsInput,
+  MerchantSalesChargeCancellationsInput,
   MerchantSalesInput,
 } from './ifood/types/merchant'
 
@@ -51,9 +53,27 @@ export default class IfoodClient {
     this.authEventBus.setToken(token)
   }
 
+  private async sleep(ms: number) {
+    return await new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   public async getMerchantSales(args: MerchantSalesInput) {
     return await this.financial()
       .getMerchantSales(args, await this.token())
+      .then((r) => [IfoodClientUtils.handlerResponse<Sales[]>(r), undefined])
+      .catch(e => [undefined, e])
+  }
+
+  public async getMerchantSalesCancellations(args: MerchantSalesCancellationsInput) {
+    return await this.financial()
+      .getMerchantSalesCancellations(args, await this.token())
+      .then((r) => [IfoodClientUtils.handlerResponse<Sales[]>(r), undefined])
+      .catch(e => [undefined, e])
+  }
+
+  public async getMerchantSalesChargeCancellations(args: MerchantSalesChargeCancellationsInput) {
+    return await this.financial()
+      .getMerchantSalesChargeCancellations(args, await this.token())
       .then((r) => [IfoodClientUtils.handlerResponse<Sales[]>(r), undefined])
       .catch(e => [undefined, e])
   }
@@ -121,24 +141,20 @@ export default class IfoodClient {
 
 
   private async getOrders(ordersIds: string[]) {
-    let orders: any[] = []
-    const orderPromises = []
-    let count = 0
-    for (let index = 0; index < ordersIds.length; index++) {
-      const orderId = ordersIds[index]
-      orderPromises.push(this.getOrderById(orderId))
-      count += 1
-      if (count === 30) {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        const orderPromise = await Promise.all(orderPromises).then(r => r.map(r => r[0]))
-        count = 0
-        orders = [...orders, ...orderPromise]
-      }
+    let chunks: any[] = []
+    const chunkSize = 30;
+    for (let i = 0; i < ordersIds.length; i += chunkSize) {
+      const chunk = ordersIds.slice(i, i + chunkSize);
+      chunks = [...chunks, chunk.map(async (orderId: string) => this.getOrderById(orderId).then(r => r[0]))]
     }
-    const orderPromise = await Promise.all(orderPromises).then(r => r.map(r => r[0]))
-    if (orderPromise.length) orders = [...orders, orderPromise]
 
-    return orders
+    let chunks_resp: any[] = []
+    for (let i = 0; i < chunks.length; i++) {
+      const resp = await Promise.all(chunks[i])
+      await this.sleep(1000)
+      chunks_resp = [...chunks_resp, ...resp]
+    }
+    return chunks_resp
   }
 
   public async getOrderById(id: string) {

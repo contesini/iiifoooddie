@@ -212,13 +212,13 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/types/sales.ts": {
-        "version": "a56c4aa9522944afee388303ac7b4a0ba206c352de63fc0d91f4cb58f16391a6",
-        "signature": "24447585b1952e205f005628d292918b2f5e5400d570f50adbace7e4af404637",
+        "version": "1cd74eb15d7a5195c1b5a3616d18aadf0c5f621cdc2cc8c7b392470ff452593e",
+        "signature": "6f6a90b66f79988b390e9f17fbcffba873d9b13d84e0c767f017b001cbd9db33",
         "affectsGlobalScope": false
       },
       "./src/ifood/types/merchant.ts": {
-        "version": "2b98a766e8e347b53072a4cfb039e77e4e892c04945225a908f933d78e096525",
-        "signature": "32c3e9981a464242fd95ac8fd8f31c0fdacaae386eb82be3890ae260216db6d2",
+        "version": "9122072a8145d3dd955126308c82134c77dd09cf5c1a5932f8944eb3328bc0f3",
+        "signature": "aad11fcd9a60522b4c9f70d5b75ac9a5401e7aeaa5eb2ce1cab286804bf97d25",
         "affectsGlobalScope": false
       },
       "./src/ifood/types/auth.ts": {
@@ -242,7 +242,7 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/utils/index.ts": {
-        "version": "d96767af2906b0e148e6e90f96b568f1b0f172cdb1815b59986cdc7b1056774f",
+        "version": "c8bd7ea67f599b367cd0fad5ae8627bf0080571b62589f0c165f2c39a06eeed1",
         "signature": "b7e7489e99443a6ab20f2b9af589fd92081ab7ddccb30318fc7b3f1fda67f064",
         "affectsGlobalScope": false
       },
@@ -262,17 +262,17 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/financial/index.ts": {
-        "version": "bfdea06cf69a18c6a3a662b7414880f41cf5e5d2ead3b5cbee2315e38c925bac",
-        "signature": "c023ea6092d64db399f1aa86bd09f104cdb70e634d6a9bebbd1b5722ce7f78d2",
+        "version": "8463aad63fbcdda70bb4bbef8e7308a0883cddabdf82bbe354bd3b646c1dd95f",
+        "signature": "562b75b8bfb1a82aa85ac37abbe1f4707f8c1c624065616a13dec2caebd97bd1",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/merchants/index.ts": {
-        "version": "c41b1ee3e806aa4428143fdc994fb2f22190fea442c1ad34d661a87c8460873f",
+        "version": "d18db5e4a89a917e19a3aec043ef139896f1ec9d21db072aeef950c3f74ae2aa",
         "signature": "92ae88ac3ee12bd2e6ac933229063b11d92ef8a040ff35cf174f4a4f1b793766",
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/order/index.ts": {
-        "version": "1f44619c99e1b5b80a5e32b4e61973e1abe32db90931c714bbbde32cf8956908",
+        "version": "ea846b91db438aee5acd541996635ad88a9bb109bfd3ea778030eb5551ce0419",
         "signature": "8a1d14091709b913066df9998ed634b1d580d43a461231f82180f97d297df6a3",
         "affectsGlobalScope": false
       },
@@ -287,8 +287,8 @@
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "9274afd6ead612422ef17ba3bb26db9cea4cdc64952b69622ca4b70d35bd5979",
-        "signature": "dc946b12a37e04e8ddc9fb33e6f21f51bc377094bf28820a3c01fe3e273f474b",
+        "version": "f8f8fdcfe269e53ee96feb2de2b2a046e4690261da757ea66c56d1fe4c37214e",
+        "signature": "a625e261a16793e38dbe1981fcf03f8af26f877ba551a1e30d670f7628e417ed",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/assert.d.ts": {
@@ -609,7 +609,6 @@
       "esModuleInterop": true,
       "pretty": true,
       "skipLibCheck": true,
-      "noEmit": false,
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
