@@ -78,13 +78,6 @@ export default class IfoodClient {
       .catch(e => [undefined, e])
   }
 
-  public async getMerchantReviews(args: MerchantReviewsInput) {
-    return await this.reviews()
-      .getMerchantReviews(args, await this.token())
-      .then(r => [r, undefined])
-      .catch(e => [undefined, e])
-  }
-
   public async getMerchants() {
     return await this.merchants()
       .getMerchants(await this.token())
@@ -140,7 +133,7 @@ export default class IfoodClient {
   }
 
 
-  private async getOrders(ordersIds: string[]) {
+  public async getOrders(ordersIds: string[]) {
     let chunks: any[] = []
     const chunkSize = 30;
     for (let i = 0; i < ordersIds.length; i += chunkSize) {
@@ -164,10 +157,9 @@ export default class IfoodClient {
       .catch(e => [undefined, e])
   }
 
-  public async getAllReviews(args: MerchantReviewsInput, pageSize: number) {
-    return this.reviews()
-      .getAllReviews(args, pageSize, await this.token())
-      .then((r) => [r.map(reviewResponse => reviewResponse.reviews), undefined])
+  public async getMerchantReviews(args: MerchantReviewsInput) {
+    return await this.reviews().getMerchantReviews(args, await this.token())
+      .then(rev => [rev, undefined])
       .catch(e => [undefined, e])
   }
 

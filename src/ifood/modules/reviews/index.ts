@@ -3,13 +3,13 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import IfoodClientUtils from '../../utils'
 import { Review, ReviewResponse } from '../../types/reviews'
 import { IfoodGetReviewError, IfoodGetReviewsError, IfoodInvalidClientToken } from '../../errors'
-import { MerchantReviewInput, MerchantReviewsInput } from '../../types/merchant'
+import { MerchantReviewInput, MerchantReviewsInput, MerchantReviewsParams } from '../../types/merchant'
 import axiosRetry from 'axios-retry';
 
-axiosRetry(axios, { 
+axiosRetry(axios, {
   retries: 3,
   retryCondition: (error: AxiosError) => {
-    if (error.code == "429"){
+    if (error.code == "429") {
       console.error("[Ifood] - Too many requests...");
       return false;
     }
@@ -31,7 +31,7 @@ export default class IfoodClientReview {
     return await new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  private static getMerchantReviewParams(args: MerchantReviewsInput) {
+  private static getMerchantReviewParams(args: MerchantReviewsParams) {
     IfoodClientReview.logger.info('get merchant review params')
     const params = new URLSearchParams()
     const argsKeys = Object.keys(args) as []
@@ -43,79 +43,29 @@ export default class IfoodClientReview {
       new Date().setDate(new Date().getDate() - 90),
     ).toISOString()
     const dateTo = new Date().toISOString()
-    params.append('dateFrom', dateFrom)
-    params.append('dateTo', dateTo)
-    params.append('pageSize', '10')
-    params.append('addCount', 'true')
+
+    IfoodClientUtils.appendKeyIfNoExists(params, 'dateFrom', dateFrom);
+    IfoodClientUtils.appendKeyIfNoExists(params, 'dateTo', dateTo);
+    IfoodClientUtils.appendKeyIfNoExists(params, 'pageSize', '10');
+    IfoodClientUtils.appendKeyIfNoExists(params, 'addCount', 'true');
     return params
   }
 
-  public static async getAllReviews(
-    args: MerchantReviewsInput,
-    pageSize: number,
-    token: string,
-  ): Promise<ReviewResponse[]> {
-    IfoodClientReview.logger.info('get all reviews')
-    const reviews = []
-    try {
-      for (let index = 1; index < pageSize; index++) {
-        const params = IfoodClientReview.getMerchantReviewParams({
-          ...args,
-          page: 1 + index,
-        })
-        this.sleep(45)
-
-        const reviewResponse = await axios({
-          url: this.MERCHANT_REVIEWS_GET_PATH(args.merchantId),
-          headers: IfoodClientUtils.getHeaders(token),
-          method: 'GET',
-          params,
-        })
-        const review = IfoodClientUtils.handlerResponse<ReviewResponse[]>(reviewResponse)
-        reviews.push(...review)
-      }
-      return reviews
-
-    } catch (error) {
-      IfoodClientReview.logger.error(error)
+  public static async getMerchantReviews({ merchantId, ...args }: MerchantReviewsInput, token: string, reviews: Review[] = []): Promise<any> {
+    IfoodClientReview.logger.info(`get all reviews page: ${args.page || 1}`)
+    const params = IfoodClientReview.getMerchantReviewParams(args)
+    const response = await axios({
+      url: this.MERCHANT_REVIEWS_GET_PATH(merchantId),
+      headers: IfoodClientUtils.getHeaders(token),
+      method: 'GET',
+      params,
+    })
+    const reviewResponse = IfoodClientUtils.handlerResponse<ReviewResponse>(response)
+    if (reviewResponse.pageCount !== reviewResponse.page) {
+      const newArgs = { merchantId, ...args, page: reviewResponse.page + 1 }
+      return await this.getMerchantReviews(newArgs, token, [...reviews, ...reviewResponse.reviews])
     }
-    throw new IfoodGetReviewsError(
-      `Get error when request all reviews from merchant ${args.merchantId}`,
-    )
-  }
-
-  public static async getMerchantReviews(
-    args: MerchantReviewsInput,
-    token: string
-  ): Promise<ReviewResponse[]> {
-    if (token === undefined || token === '') throw new IfoodInvalidClientToken("invalid token");
-    IfoodClientReview.logger.info(`getMerchantReviews for id: ${args.merchantId}`)
-    const params = this.getMerchantReviewParams(args)
-    try {
-      const firstReviewResponse = await axios({
-        url: this.MERCHANT_REVIEWS_GET_PATH(args.merchantId),
-        headers: IfoodClientUtils.getHeaders(token),
-        method: 'GET',
-        params,
-      })
-      const firstReviewResponseData = IfoodClientUtils.handlerResponse<ReviewResponse>(
-        firstReviewResponse,
-      )
-      const reviews = (await this.getAllReviews(
-        args,
-        firstReviewResponseData.pageCount,
-        token,
-      ))
-      return [
-        firstReviewResponseData,
-        ...reviews
-      ]
-    } catch (error) {
-      IfoodClientReview.logger.error(error)
-    }
-    throw new IfoodGetReviewsError(
-      `Get error when trying to get merchant reviews from merchant ${args.merchantId}`,
-    )
+    return reviews
   }
 
   public static async getReview(

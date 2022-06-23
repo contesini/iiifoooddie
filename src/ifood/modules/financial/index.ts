@@ -1,4 +1,4 @@
-import { MerchantResume, MerchantSalesCancellationsInput, MerchantSalesCancellationsParams, MerchantSalesChargeCancellationsInput, MerchantSalesChargeCancellationsParams, MerchantSalesInput } from '../../types/merchant'
+import { MerchantResume, MerchantSalesCancellationsInput, MerchantSalesCancellationsParams, MerchantSalesChargeCancellationsInput, MerchantSalesChargeCancellationsParams, MerchantSalesInput, MerchantSalesParams } from '../../types/merchant'
 
 import Logger from '../../../utils/logger'
 import axios, { AxiosError, AxiosResponse } from 'axios'
@@ -29,7 +29,7 @@ export default class IfoodClientFinancial {
   private static MERCHANTS_SALES_CANCELLATIONS_GET_PATH = (id: string) =>
     new IfoodClientUtils().formatURL(`financial/v1.0/merchants/${id}/cancellations`);
 
-  private static getMerchantSalesParams(args: MerchantSalesInput) {
+  private static getMerchantSalesParams(args: MerchantSalesParams) {
     this.logger.info('getMerchantSalesParams')
     const params = new URLSearchParams();
     const argsKeys = Object.keys(args) as [];
@@ -83,12 +83,11 @@ export default class IfoodClientFinancial {
 
     IfoodClientUtils.appendKeyIfNoExists(params, 'beginCancellationDate', beginCancellationDate);
     IfoodClientUtils.appendKeyIfNoExists(params, 'endCancellationDate', endCancellationDate);
-
     return params;
   }
 
   private static getMerchantSalesChargeCancellationsParams(args: MerchantSalesChargeCancellationsParams) {
-    this.logger.info('getMerchantSalesCancellationsParams')
+    this.logger.info('getMerchantSalesChargeCancellationsParams')
     const params = new URLSearchParams();
     const argsKeys = Object.keys(args) as [];
     for (let index = 0; index < argsKeys.length; index++) {
@@ -142,7 +141,8 @@ export default class IfoodClientFinancial {
       const resp = await axios({
         url: this.MERCHANTS_SALES_CANCELLATIONS_GET_PATH(merchantId),
         headers: IfoodClientUtils.getHeaders(token),
-        method: 'GET'
+        method: 'GET',
+        params
       });
       return resp
     } catch (error) {

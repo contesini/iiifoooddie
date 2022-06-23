@@ -1,9 +1,13 @@
 import { Address } from './address';
 import { Order } from './order';
+import { Review } from './reviews';
 import { Sales } from './sales';
 
-export type MerchantSalesInput = {
+export type MerchantSalesInput = MerchantSalesParams & {
   merchantId: string;
+};
+
+export type MerchantSalesParams = {
   periodId?: string;
   beginLastProcessingDate?: Date;
   endLastProcessingDate?: Date;
@@ -33,11 +37,17 @@ export type MerchantSalesChargeCancellationsInput = MerchantSalesChargeCancellat
   merchantId: string;
 };
 
-export type MerchantReviewsInput = {
+export type MerchantReviewsInput = MerchantReviewsParams & {
   merchantId: string;
-  page: number;
-  sort: 'DESC' | 'ASC';
-  sortBy: 'CREATED_AT' | 'ORDER_DATE';
+};
+
+export type MerchantReviewsParams = {
+  page?: number;
+  sort?: 'DESC' | 'ASC';
+  sortBy?: 'CREATED_AT' | 'ORDER_DATE';
+  pageSize: number;
+  dateFrom: Date;
+  dateTO: Date;
 };
 
 export type MerchantReviewInput = {
@@ -108,6 +118,29 @@ export type MerchantResume = {
   corporateName: string;
 }
 
+
+export type Cancellations = {
+  merchantName: string;
+  merchantId: string;
+  orderId: string;
+  cancellationDate: Date;
+  orderDate: Date;
+  amount: number;
+  liability: string;
+  operationType: string
+}
+export type ChargeCancellations = {
+  merchantName: string;
+  paymentPlan: string;
+  periodId: string;
+  expectedPaymentDate: Date
+  transactionId: string;
+  transactionDate: Date
+  amount: number;
+  orderId: string;
+  orderDate: Date
+}
+
 export type Merchant = {
   id: string;
   name: string;
@@ -115,6 +148,9 @@ export type Merchant = {
   details?: MerchantDetails;
   operations?: MerchantOperation[];
   interruptions?: MerchantInterruption[];
-  orders?: Order[]
-  sales?: Sales[]
+  orders?: Order[];
+  sales?: Sales[];
+  cancellations?: Cancellations[];
+  chargeCancellations?: ChargeCancellations[];
+  reviews?: Review[];
 }
