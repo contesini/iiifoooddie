@@ -33,6 +33,16 @@ export type MerchantSalesChargeCancellationsParams = {
   transactionDateEnd?: Date;
 };
 
+export type MerchantSalesAdjustmentsInput = MerchantSalesAdjustmentsParams & {
+  merchantId: string;
+};
+
+export type MerchantSalesAdjustmentsParams = {
+  periodId?: string;
+  beginUpdateDate?: Date;
+  endUpdateDate?: Date;
+};
+
 export type MerchantSalesChargeCancellationsInput = MerchantSalesChargeCancellationsParams & {
   merchantId: string;
 };
@@ -141,6 +151,36 @@ export type ChargeCancellations = {
   orderDate: Date
 }
 
+export type SalesAdjustments = {
+  orderId: string;
+  billedOrderId: string;
+  periodId: string;
+  documentNumber: string;
+  orderDate: Date;
+  orderDateUpdate: Date;
+  orderDateTimeUpdate: Date;
+  adjustmentAmount: number;
+  billedOrderUpdate: {
+    gmv: number;
+    totalBag: number;
+    deliveryFee: number;
+    benefitIfood: number;
+    benefitMerchant: number;
+    commission: number;
+    acquirerFee: number;
+    deliveryCommission: number;
+    commissionRate: number;
+    acquirerFeeRate: number;
+    totalDebit: number;
+    totalCredit: number;
+    anticipationFee: number;
+    anticipationFeeRate: number;
+    smallOrderFee: number;
+    benefitPaymentCredit: number;
+    benefitAcquirerFee: number;
+  }
+}
+
 export type Merchant = {
   id: string;
   name: string;
@@ -148,9 +188,9 @@ export type Merchant = {
   details?: MerchantDetails;
   operations?: MerchantOperation[];
   interruptions?: MerchantInterruption[];
-  orders?: Order[];
   sales?: Sales[];
   cancellations?: Cancellations[];
   chargeCancellations?: ChargeCancellations[];
   reviews?: Review[];
+  salesAdjustments?: SalesAdjustments[];
 }

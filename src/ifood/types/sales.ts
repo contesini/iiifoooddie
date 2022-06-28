@@ -14,6 +14,8 @@ export interface Sales {
   payment: Payment;
   billing: Billing;
   transfer: Transfer;
+  benefitPaymentCredit?: number;
+  benefitAcquirerFee?: number
 }
 
 export interface SalesChargeCancellations {

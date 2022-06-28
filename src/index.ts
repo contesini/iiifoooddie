@@ -5,6 +5,7 @@ import {
   MerchantOperation,
   MerchantReviewInput,
   MerchantReviewsInput,
+  MerchantSalesAdjustmentsInput,
   MerchantSalesCancellationsInput,
   MerchantSalesChargeCancellationsInput,
   MerchantSalesInput,
@@ -78,6 +79,13 @@ export default class IfoodClient {
       .catch(e => [undefined, e])
   }
 
+  public async getMerchantSalesAdjustments(args: MerchantSalesAdjustmentsInput) {
+    return await this.financial()
+      .getMerchantSalesAdjustments(args, await this.token())
+      .then((r) => [IfoodClientUtils.handlerResponse<Sales[]>(r), undefined])
+      .catch(e => [undefined, e])
+  }
+
   public async getMerchants() {
     return await this.merchants()
       .getMerchants(await this.token())
@@ -90,32 +98,6 @@ export default class IfoodClient {
       .getMerchantDetails(id, await this.token())
       .then((r) => [IfoodClientUtils.handlerResponse<MerchantDetails>(r), undefined])
       .catch(e => [undefined, e])
-  }
-
-  public async getMerchantDetailsStatusAndInterruptions(merchant: Merchant) {
-    try {
-
-      const [details, detailsError] = await this.getMerchantDetails(merchant.id)
-      const [operations, operationsError] = await this.getMerchantStatus(merchant.id)
-      const [interruptions, interruptionsError] = await this.getMerchantInterruptions(merchant.id)
-
-      const [sales, salesError] = await this.getMerchantSales({ merchantId: merchant.id })
-
-      let orders = undefined
-
-      if (sales?.length) orders = await this.getOrders([
-        ...sales.map((sale: any) => sale.orderId),
-      ])
-
-      if (details) merchant.details = details
-      if (operations) merchant.operations = operations as any
-      if (interruptions) merchant.interruptions = interruptions as any
-      if (sales) merchant.sales = sales
-      if (orders) merchant.orders = orders as any
-      return [merchant, undefined]
-    } catch (error) {
-      return [undefined, error]
-    }
   }
 
   public async getMerchantInterruptions(id: string) {
