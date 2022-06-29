@@ -217,13 +217,13 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/types/sales.ts": {
-        "version": "1cd74eb15d7a5195c1b5a3616d18aadf0c5f621cdc2cc8c7b392470ff452593e",
-        "signature": "6f6a90b66f79988b390e9f17fbcffba873d9b13d84e0c767f017b001cbd9db33",
+        "version": "1bfce50ab3377c184fa408890c727329742fa0a053b101de6d51269558cfce72",
+        "signature": "f92a5abedaf19493293e1d041af09ac1089a6378f27572ea6d4eb9325fed9a6d",
         "affectsGlobalScope": false
       },
       "./src/ifood/types/merchant.ts": {
-        "version": "109afe08128eb1a69cf9175b633110e78cf34dccc4fde202bdc25af713d6582c",
-        "signature": "166c0dcd07feef6f94e4e30f50c4c8c8755cea6c600fdb12777901dce7577c06",
+        "version": "3005517d63d01832ca2fe161cadbf3781a3828696688c60e7847fff433da8041",
+        "signature": "237ee18ab2481bcc0e498a8e66809504f4c4e8099ac71587f14847b4dd35104a",
         "affectsGlobalScope": false
       },
       "./src/ifood/types/auth.ts": {

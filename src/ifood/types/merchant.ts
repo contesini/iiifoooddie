@@ -57,7 +57,7 @@ export type MerchantReviewsParams = {
   sortBy?: 'CREATED_AT' | 'ORDER_DATE';
   pageSize: number;
   dateFrom: Date;
-  dateTO: Date;
+  dateTo: Date;
 };
 
 export type MerchantReviewInput = {
