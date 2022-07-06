@@ -282,7 +282,7 @@
         "affectsGlobalScope": false
       },
       "./src/ifood/modules/reviews/index.ts": {
-        "version": "cef4ff66380b389335425249fd801194b9cd404c4ae8fe938c364ab59d467b0d",
+        "version": "a25445103d503008be103f5cc1e97059f9df928f36de70443e8ba753d2e3719e",
         "signature": "2ffc132b9ef5f31672515bfc065175507a7c224d8f518540034bc4d3df67317e",
         "affectsGlobalScope": false
       },

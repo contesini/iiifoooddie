@@ -61,11 +61,14 @@ export default class IfoodClientReview {
       params,
     })
     const reviewResponse = IfoodClientUtils.handlerResponse<ReviewResponse>(response)
-    if (reviewResponse.pageCount !== reviewResponse.page) {
+
+    if (reviewResponse.pageCount > reviewResponse.page) {
       const newArgs = { merchantId, ...args, page: reviewResponse.page + 1 }
       return await this.getMerchantReviews(newArgs, token, [...reviews, ...reviewResponse.reviews])
     }
-    return reviews
+
+    const returner = [...reviews, ...reviewResponse.reviews]
+    return returner
   }
 
   public static async getReview(
