@@ -1,95 +1,92 @@
-import Logger from '../../../utils/logger'
-import IfoodClientUtils from '../../utils/index'
-
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import {
   IfoodAuthForbidden,
   IfoodInvalidClientIdError,
   IfoodInvalidClientSecretError,
-} from '../../errors/index'
-import axios, { AxiosError } from 'axios'
-import axiosRetry from 'axios-retry';
-import { Authentication } from 'src/ifood/types/auth';
+} from "../../errors";
+import { Authentication } from "../../types/auth";
+import { getDefaultHeaders, handleResponse } from "../../utils";
+import { IfoodModule } from "../module";
+import qs from "qs";
 
-axiosRetry(axios, { 
-  retries: 3,
-  retryCondition: (error: AxiosError) => {
-    if (error.code == "429"){
-      console.error("[Ifood] - Too many requests...");
-      return false;
+export type IfoodAuthConfig = {
+  clientId?: string;
+  clientSecret?: string;
+  grantType?: string;
+};
+
+export const AUTHENTICATION_PATH = "/authentication/v1.0/oauth/token";
+export class IfoodClientAuth extends IfoodModule {
+  constructor(baseURL: string, config: IfoodAuthConfig | undefined) {
+    super(
+      axios.create({ baseURL, headers: getDefaultHeaders() }),
+      "ifood-client-auth"
+    );
+    this.logger.debug(`URL: ${baseURL}`);
+    let defaultConfig: IfoodAuthConfig = {
+      clientId: process.env.IFOOD_CLIENT_ID,
+      clientSecret: process.env.IFOOD_CLIENT_SECRET,
+      grantType: "client_credentials",
+    };
+    this.config = { ...defaultConfig, ...config };
+    if (!this.config.clientId) {
+      throw new IfoodInvalidClientIdError("Credentials Missing");
     }
-    return true
-  }
-});
-
-export default class IfoodClientAuth {
-  private static logger = new Logger('ifood-client-auth')
-
-  private static clientId = String(process.env.IFOOD_CLIENT_ID)
-
-  private static clientSecret = String(process.env.IFOOD_CLIENT_SECRET)
-
-  public static AUTHENTICATION_PATH = () =>
-    new IfoodClientUtils().formatURL('/authentication/v1.0/oauth/token')
-
-  private static validateIfoodClientIdAndSecret = () => {
-    IfoodClientAuth.logger.debug(`IFOOD_CLIENT_ID ${IfoodClientAuth.clientId}`)
-    IfoodClientAuth.logger.debug(
-      `IFOOD_CLIENT_SECRET ${IfoodClientAuth.clientSecret.slice(0, 4)}`,
-    )
-    if (IfoodClientAuth.clientId === undefined) {
-      IfoodClientAuth.logger.error(
-        'client id is undefined set env variable: IFOOD_CLIENT_ID',
-      )
-      throw new IfoodInvalidClientIdError(
-        'invalid client id, check env IFOOD_CLIENT_ID',
-      )
-    }
-    if (IfoodClientAuth.clientSecret === undefined) {
-      IfoodClientAuth.logger.error(
-        'client id is undefined set env variable: IFOOD_CLIENT_SECRET',
-      )
-      throw new IfoodInvalidClientSecretError(
-        'invalid client id, check env IFOOD_CLIENT_SECRET',
-      )
+    if (!this.config.clientSecret) {
+      throw new IfoodInvalidClientSecretError("Credentials Missing");
     }
   }
 
-  public static getAuthParams(clientId?: string, clientSecret?: string): URLSearchParams {
-    IfoodClientAuth.logger.debug('getAuthParams')
-    IfoodClientAuth.validateIfoodClientIdAndSecret()
-    const params = new URLSearchParams()
-    params.append('grantType', 'client_credentials')
-    params.append('clientId', clientId || IfoodClientAuth.clientId)
-    params.append('clientSecret', clientSecret || IfoodClientAuth.clientSecret)
-    IfoodClientAuth.logger.debug(`get auth params ${JSON.stringify(params)}`)
-    return params
+  private config: IfoodAuthConfig;
+
+  private token: string = "";
+  private expiresIn: number = 0;
+
+  async getToken(): Promise<string> {
+    this.logger.debug("getToken");
+    if (this.isValid()) {
+      return this.token;
+    }
+    return await this.refreshToken();
   }
 
-  public static authenticate = async (clientId?: string, clientSecret?: string) => {
-    IfoodClientAuth.logger.debug('authenticate')
+  isValid(): boolean {
+    this.logger.debug(`Date: ${Date.now()} expiresIn: ${this.expiresIn}`);
+    return this.token != "" && this.expiresIn > Date.now();
+  }
+
+  async refreshToken(): Promise<string> {
+    this.logger.debug("refreshToken");
+    this.logger.debug(qs.stringify(this.config));
     try {
-      const params = IfoodClientAuth.getAuthParams(clientId, clientSecret)
-      const resp = await axios({
-        url: IfoodClientAuth.AUTHENTICATION_PATH(),
-        method: 'POST',
-        headers: IfoodClientUtils.getHeaders(),
-        params,
-      })
-      const token = IfoodClientUtils.handlerResponse<Authentication>(resp)
+      const resp = await this.client.post(
+        AUTHENTICATION_PATH,
+        qs.stringify(this.config)
+      );
+      const token = handleResponse<Authentication>(resp);
       if (token !== undefined) {
-        IfoodClientAuth.logger.info('get token with sucess')
-        IfoodClientAuth.logger.info(`expires in ${token.expiresIn}`)
+        this.logger.debug("get token with sucess");
+        this.logger.debug(`expires in ${token.expiresIn}`);
 
-        token.expiresIn = Date.now() + ((token.expiresIn - 1)  * 1000)
-
-        IfoodClientAuth.logger.info(`expiration timestamp: ${token.expiresIn}`)
-        return token
+        this.expiresIn = Date.now() + (token.expiresIn - 1) * 1000;
+        this.token = token.accessToken;
+        this.logger.debug(this.token);
+        return this.token;
       }
     } catch (error) {
-      IfoodClientAuth.logger.error(error)
+      this.logger.error(error);
     }
     throw new IfoodAuthForbidden(
-      'Please check IFOOD_CLIENT_ID and IFOOD_CLIENT_SECRET are valid',
-    )
+      "Please check IFOOD_CLIENT_ID and IFOOD_CLIENT_SECRET are valid"
+    );
+  }
+
+  loadAuthInterceptor(instance: AxiosInstance) {
+    instance.interceptors.request.use(async (config: AxiosRequestConfig) => {
+      if (!config.headers) config.headers = {};
+      const token = await this.getToken();
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    });
   }
 }

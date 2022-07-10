@@ -1,52 +1,30 @@
-import Logger from '../../../utils/logger'
-import axios, { AxiosError } from 'axios'
-import IfoodClientUtils from '../../utils'
-import { IfoodGetOrderError, IfoodInvalidClientToken } from '../../errors'
+import { AxiosInstance } from "axios";
+import { IfoodGetOrderError } from "../../errors";
 
-import axiosRetry from 'axios-retry';
+import { Order } from "../../types/order";
+import { handleResponse } from "../../utils";
+import { IfoodModule } from "../module";
 
-axiosRetry(axios, {
-  retries: 3,
-  retryCondition: (error: AxiosError) => {
-    if (error.code == "429") {
-      console.error("[Ifood] - Too many requests...");
-      return false;
-    }
-    return true
-  }
-});
-
-
-
-export default class IfoodClientOrder {
-  private static logger = new Logger('ifood-client-order')
-
-  public static ORDER_GET_PATH = (id: string) =>
-    new IfoodClientUtils().formatURL(`/order/v1.0/orders/${id}`);
-
-  private static async sleep(ms: number) {
-    return await new Promise(resolve => setTimeout(resolve, ms));
+const ORDER_GET_PATH = (id: string) => `/order/v1.0/orders/${id}`;
+export class IfoodOrderModule extends IfoodModule {
+  constructor(client: AxiosInstance) {
+    super(client, "ifood-client-order");
   }
 
-  public static async getOrderById(id: string, token: string) {
-    if (token === undefined) throw new IfoodInvalidClientToken("invalid token");
-    IfoodClientOrder.logger.info(`getOrderById id: ${id}`);
-    const params = IfoodClientUtils.getParamsFromArgs({ id });
+  public async getOrderById(id: string): Promise<Order> {
+    this.logger.debug(`getOrderById id: ${id}`);
     try {
-      this.sleep(45)
-      const response = await axios({
-        url: IfoodClientOrder.ORDER_GET_PATH(id),
-        headers: IfoodClientUtils.getHeaders(token),
-        method: 'GET',
-        params,
+      const response = await this.client.get(ORDER_GET_PATH(id), {
+        params: {
+          id,
+        },
       });
-      return response
+      return handleResponse<Order>(response);
     } catch (error) {
-      IfoodClientOrder.logger.error(error);
+      this.logger.error(error);
     }
     throw new IfoodGetOrderError(
-      `Get error when trying to get merchant reviews from merchant ${id}`,
+      `Get error when trying to get order ${id}`
     );
   }
-
 }
