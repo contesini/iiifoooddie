@@ -1,5 +1,4 @@
 import { Address } from './address';
-import { Order } from './order';
 import { Review } from './reviews';
 import { Sales } from './sales';
 

@@ -1,62 +1,50 @@
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+import axiosRetry from "axios-retry";
 
-import Logger from '../../utils/logger'
-import { IfoodResponseFailedError } from '../errors/index'
+import Logger from "../../utils/logger";
+import { IfoodResponseFailedError } from "../errors";
 
-export default class IfoodClientUtils {
+const logger = new Logger("ifood-client-utils");
 
-  private static logger = new Logger('ifood-client-utils')
-
-  public static IFOOD_MERCHANT_API_URL = process.env.IFOOD_MERCHANT_API_URL;
-
-  public formatURL = (path: string) => `${IfoodClientUtils.IFOOD_MERCHANT_API_URL}${path}`;
-
-  public static getParamsFromArgs(args: any) {
-    IfoodClientUtils.logger.info('get params from args')
-    const params = new URLSearchParams();
-    const argsKeys = Object.keys(args);
-    for (let index = 0; index < argsKeys.length; index++) {
-      const argKey = argsKeys[index];
-      params.append(argKey, args[argKey]);
-    }
-    return params;
+export function handleResponse<T>(resp: AxiosResponse<any, any>): T {
+  if (resp.status === 200) {
+    return resp.data;
+  } else {
+    logger.debug(`get reponse ${JSON.stringify(resp.status)}`);
+    throw new IfoodResponseFailedError(
+      `Request to '${resp.config.url}' returned status code ${resp.status}`
+    );
   }
+}
 
-  public static getHeaders(token?: string): any {
-    IfoodClientUtils.logger.debug('get headers')
-    if (token) {
-      return {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      };
-    }
-    return {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      accept: 'application/json',
-    };
-  }
+export function getDefaultHeaders(): { [key: string]: string } {
+  return {
+    "Content-Type": "application/x-www-form-urlencoded",
+    accept: "application/json",
+  };
+}
 
-  public static handlerResponse<T>(resp: AxiosResponse<any, any>): T {
-    if (resp.status === 200) {
-      return resp.data
-    } else {
-      IfoodClientUtils.logger.info(`get reponse ${JSON.stringify(resp.status)}`)
-      throw new IfoodResponseFailedError(
-        `response from ifood return status code ${resp.status}`,
-      )
-    }
-  }
+export async function sleep(ms: number) {
+  return await new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-  public static appendKeyIfNoExists(
-    params: URLSearchParams,
-    key: string,
-    value: string,
-  ) {
-    if (!params.get(key)) {
-      IfoodClientUtils.logger.debug(`append key ${key} with value: ${value}`)
-      params.append(key, value);
-    }
-  }
+export function getDateBefore(days: number): Date {
+  return new Date(new Date().setDate(new Date().getDate() - days));
+}
 
+export function toDate(date: Date): string {
+  return date.toISOString().split("T")[0];
+}
+
+export function addRetryInterceptor(instance: AxiosInstance) {
+  axiosRetry(instance, {
+    retries: 3,
+    retryCondition: (error: AxiosError) => {
+      if (error.code == "429") {
+        console.error("[Ifood] - Too many requests...");
+        return false;
+      }
+      return true;
+    },
+  });
 }

@@ -1,0 +1,16 @@
+{
+  "name": "sync-data",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "iiifoooddie": "file:../../"
+  },
+  "devDependencies": {
+    "ts-node": "^10.8.2"
+  }
+}

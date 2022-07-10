@@ -1,211 +1,148 @@
-import axios from 'axios'
-import IfoodClientMerchant from '../../../../src/ifood/modules/merchants'
-import * as path from 'path'
-import * as dotenv from 'dotenv'
-import { merchantDetailsMockData, merchantInterruptionsMockData, merchantMockData, merchantStatusMockData } from './static'
+// import IfoodClientMerchant from '../../../../src/ifood/modules/merchants'
+import { IfoodMerchantModule } from "../../../../src/ifood/modules/merchants";
+import axios from "axios";
+import {
+  merchantDetailsMockData,
+  merchantInterruptionsMockData,
+  merchantMockData,
+  merchantStatusMockData,
+} from "./static";
 
-dotenv.config({ path: path.join(__dirname, '../.env') })
+jest.mock("axios");
 
-jest.mock('axios')
+const mockedClient = axios as jest.Mocked<typeof axios>;
 
-describe('ifood-client-merchant', () => {
-  describe('getMerchants', () => {
-    it('should get merchants', async () => {
+describe("ifood-client-merchant", () => {
+  let merchantModule: IfoodMerchantModule;
+
+  beforeAll(() => {
+    merchantModule = new IfoodMerchantModule(mockedClient);
+  });
+
+  describe("getMerchants", () => {
+    it("should get merchants", async () => {
       // given
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(merchantMockData)
-
+      mockedClient.get.mockResolvedValueOnce(merchantMockData);
       // when
-      const result = await IfoodClientMerchant.getMerchants('authorized')
+      const result = await merchantModule.getMerchants();
+      expect(result).toEqual(merchantMockData.data);
+    });
 
-      expect(result.data).toEqual(merchantMockData.data)
-      expect(result.status).toEqual(merchantMockData.status)
-    })
-
-    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
-      // given
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(merchantMockData)
-
-      try {
-        // when
-        await IfoodClientMerchant.getMerchants('')
-      } catch (error) {
-        expect(error.message).toEqual('invalid token')
-      }
-    })
-
-    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
+    it("should throw IfoodGetMerchantsError when response is invalid", async () => {
       // given
       const merchants = {
         status: 400,
         data: merchantMockData.data,
-      }
-
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(merchants)
-
+      };
+      mockedClient.get.mockResolvedValueOnce(merchants);
       try {
         // when
-        await IfoodClientMerchant.getMerchants('authorized')
+        await merchantModule.getMerchants();
       } catch (error) {
-        expect(error.message).toEqual(
-          `Get error when trying to get merchants from ifood api`,
-        )
+        let errorMessage = "Failed to do something exceptional";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        expect(errorMessage).toEqual(
+          `Get error when trying to get merchants from ifood api`
+        );
       }
-    })
-  })
+    });
+  });
 
-  describe('getMerchantStatus', () => {
-    it('should get getMerchantStatus', async () => {
+  describe("getMerchantStatus", () => {
+    it("should get getMerchantStatus", async () => {
       // given
-      ;((axios as unknown) as jest.Mock)
-        .mockResolvedValueOnce(merchantStatusMockData)
-        .mockReturnValueOnce(merchantStatusMockData)
-
+      mockedClient.get.mockResolvedValueOnce(merchantStatusMockData);
       // when
-      const result = await IfoodClientMerchant.getMerchantStatus(
-        'id',
-        'authorized',
-      )
+      const result = await merchantModule.getMerchantStatus("id");
+      expect(result).toEqual(merchantStatusMockData.data);
+    });
 
-      expect(result.data).toEqual(merchantStatusMockData.data)
-      expect(result.status).toEqual(merchantStatusMockData.status)
-    })
-
-    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
-      // given
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(
-        merchantStatusMockData,
-      )
-
-      try {
-        // when
-        await IfoodClientMerchant.getMerchantStatus('id', '')
-      } catch (error) {
-        expect(error.message).toEqual('invalid token')
-      }
-    })
-
-    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
+    it("should throw IfoodGetMerchantsError when response is invalid", async () => {
       // given
       const merchants = {
         status: 400,
         data: merchantStatusMockData.data,
-      }
-
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(merchants)
-
+      };
+      mockedClient.get.mockResolvedValueOnce(merchants);
+      const id = "id";
       try {
         // when
-        await IfoodClientMerchant.getMerchantStatus('id', 'authorized')
+        await merchantModule.getMerchantStatus(id);
       } catch (error) {
-        expect(error.message).toEqual(
-          `Get error when trying to get merchants from ifood api`,
-        )
+        let errorMessage = "Failed to do something exceptional";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        expect(errorMessage).toEqual(
+          `Get error when trying to get merchant status for merchant ${id}`
+        );
       }
-    })
-  })
+    });
+  });
 
-  describe('getMerchantInterruptions', () => {
-    it('should get getMerchantInterruptions', async () => {
+  describe("getMerchantInterruptions", () => {
+    it("should get getMerchantInterruptions", async () => {
       // given
-      ((axios as unknown) as jest.Mock)
-        .mockResolvedValueOnce(merchantInterruptionsMockData)
-        .mockReturnValueOnce(merchantInterruptionsMockData)
-
+      mockedClient.get.mockResolvedValueOnce(merchantInterruptionsMockData);
       // when
-      const result = await IfoodClientMerchant.getMerchantInterruptions(
-        'id',
-        'authorized',
-      )
+      const result = await merchantModule.getMerchantInterruptions("id");
+      expect(result).toEqual(merchantInterruptionsMockData.data);
+    });
 
-      expect(result.data).toEqual(merchantInterruptionsMockData.data)
-      expect(result.status).toEqual(merchantInterruptionsMockData.status)
-    })
-
-    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
-      // given
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(
-        merchantInterruptionsMockData,
-      )
-
-      try {
-        // when
-        await IfoodClientMerchant.getMerchantStatus('id', '')
-      } catch (error) {
-        expect(error.message).toEqual('invalid token')
-      }
-    })
-
-    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
+    it("should throw IfoodGetMerchantsError when response is invalid", async () => {
       // given
       const merchants = {
         status: 400,
         data: merchantInterruptionsMockData.data,
-      }
-
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(merchants)
-
+      };
+      mockedClient.get.mockResolvedValueOnce(merchants);
+      const id = "id";
       try {
         // when
-        await IfoodClientMerchant.getMerchantStatus('id', 'authorized')
+        await merchantModule.getMerchantInterruptions(id);
       } catch (error) {
-        expect(error.message).toEqual(
-          `Get error when trying to get merchants from ifood api`,
-        )
+        let errorMessage = "Failed to do something exceptional";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        expect(errorMessage).toEqual(
+          `Get error when trying to get merchant interruptions from merchant ${id}`
+        );
       }
-    })
-  })
+    });
+  });
 
-
-  describe('getMerchantDetails', () => {
-    it('should get getMerchantDetails', async () => {
+  describe("getMerchantDetails", () => {
+    it("should get getMerchantDetails", async () => {
       // given
-      ((axios as unknown) as jest.Mock)
-        .mockResolvedValueOnce(merchantDetailsMockData)
-        .mockReturnValueOnce(merchantDetailsMockData)
-
+      mockedClient.get.mockResolvedValueOnce(merchantDetailsMockData);
       // when
-      const result = await IfoodClientMerchant.getMerchantDetails(
-        'id',
-        'authorized',
-      )
+      const result = await merchantModule.getMerchantDetails("id");
+      expect(result).toEqual(merchantDetailsMockData.data);
+    });
 
-      expect(result.data).toEqual(merchantDetailsMockData.data)
-      expect(result.status).toEqual(merchantDetailsMockData.status)
-    })
-
-    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
-      // given
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(
-        merchantDetailsMockData,
-      )
-
-      try {
-        // when
-        await IfoodClientMerchant.getMerchantStatus('id', '')
-      } catch (error) {
-        expect(error.message).toEqual('invalid token')
-      }
-    })
-
-    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
+    it("should throw IfoodGetMerchantsError when response is invalid", async () => {
       // given
       const merchants = {
         status: 400,
         data: merchantDetailsMockData.data,
-      }
-
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(merchants)
-
+      };
+      mockedClient.get.mockResolvedValueOnce(merchants);
+      const id = "id";
       try {
         // when
-        await IfoodClientMerchant.getMerchantStatus('id', 'authorized')
+        await merchantModule.getMerchantStatus(id);
       } catch (error) {
-        expect(error.message).toEqual(
-          `Get error when trying to get merchants from ifood api`,
-        )
+        let errorMessage = "Failed to do something exceptional";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        expect(errorMessage).toEqual(
+          `Get error when trying to get merchant status for merchant ${id}`
+        );
       }
-    })
-    
-  })
-
-})
+    });
+  });
+});

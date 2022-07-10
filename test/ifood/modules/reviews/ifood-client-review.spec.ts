@@ -1,167 +1,92 @@
-import axios from 'axios'
-import IfoodClientReview from '../../../../src/ifood/modules/reviews'
-import * as path from 'path'
-import * as dotenv from 'dotenv'
-import { merchantsReviewsMockData, reviewDetailsMockData } from './static'
-import { MerchantReviewsInput } from '../../../../src/ifood/types/merchant'
+import axios from "axios";
+import * as path from "path";
+import { MerchantReviewsInput } from "../../../../src/ifood/types/merchant";
+import { IfoodReviewModule } from "../../../../src/ifood/modules/reviews";
 
-dotenv.config({ path: path.join(__dirname, '../.env') })
+import { merchantsReviewsMockData, reviewDetailsMockData } from "./static";
 
-jest.mock('axios')
+jest.mock("axios");
+const mockedClient = axios as jest.Mocked<typeof axios>;
 
 const args = {
   merchantId: "id",
-  reviewId: "id"
-}
+  reviewId: "id",
+};
 
 const argsReviewsMerchant: MerchantReviewsInput = {
   merchantId: "id",
   page: 0,
-  sort:  "ASC",
-  sortBy: "ORDER_DATE"
-}
+  sort: "ASC",
+  sortBy: "ORDER_DATE",
+  dateFrom: new Date(),
+  dateTo: new Date(),
+  pageSize: 10,
+};
 
-describe('ifood-client-order', () => {
-  describe('getReview', () => {
-    it('should get getReview', async () => {
+describe("ifood-client-order", () => {
+  let reviewModule: IfoodReviewModule;
+
+  beforeAll(() => {
+    reviewModule = new IfoodReviewModule(mockedClient);
+  });
+
+  describe("getReview", () => {
+    it("should get getReview", async () => {
       // given
-      ((axios as unknown) as jest.Mock)
-        .mockResolvedValueOnce(reviewDetailsMockData)
-        .mockReturnValueOnce(reviewDetailsMockData)
-
+      mockedClient.get.mockResolvedValueOnce(reviewDetailsMockData);
       // when
-      const result = await IfoodClientReview.getReview(args, 'authorized')
+      const result = await reviewModule.getReview(args);
+      expect(result).toEqual(reviewDetailsMockData.data);
+    });
 
-      expect(result.data).toEqual(reviewDetailsMockData.data)
-      expect(result.status).toEqual(reviewDetailsMockData.status)
-    })
-
-    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
-      // given
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(
-        reviewDetailsMockData,
-      )
-
-      try {
-        // when
-        await IfoodClientReview.getReview(args, '')
-      } catch (error) {
-        expect(error.message).toEqual('invalid token')
-      }
-    })
-
-    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
+    it("should throw IfoodGetMerchantsError when response is invalid", async () => {
       // given
       const order = {
         status: 400,
         data: reviewDetailsMockData.data,
       };
-
-      ((axios as unknown) as jest.Mock).mockResolvedValueOnce(order)
-
+      mockedClient.get.mockResolvedValueOnce(order);
       try {
         // when
-        await IfoodClientReview.getReview(args, 'authorized')
+        await reviewModule.getReview(args);
       } catch (error) {
-        expect(error.message).toEqual(
-          `get error when request getReview`,
-        )
+        let errorMessage = "Failed to do something exceptional";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        expect(errorMessage).toEqual(`get error when request getReview`);
       }
-    })
-  })
+    });
+  });
 
-  describe('getMerchantReviews', () => {
-    it('should get getMerchantReviews', async () => {
+  describe("getMerchantReviews", () => {
+    it("should get getMerchantReviews", async () => {
       // given
-      ((axios as unknown) as jest.Mock)
-        .mockResolvedValueOnce(merchantsReviewsMockData)
-        .mockReturnValueOnce(merchantsReviewsMockData)
-
+      mockedClient.get.mockResolvedValueOnce(merchantsReviewsMockData);
       // when
-      const result = await IfoodClientReview.getMerchantReviews(argsReviewsMerchant, 'authorized')
+      const result = await reviewModule.getMerchantReviews(argsReviewsMerchant);
+      expect(result).toEqual(merchantsReviewsMockData.data.reviews);
+    });
 
-      expect(result).toEqual([merchantsReviewsMockData.data])
-    })
-
-    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
-      // given
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(
-        merchantsReviewsMockData,
-      )
-
-      try {
-        // when
-        await IfoodClientReview.getMerchantReviews(argsReviewsMerchant, '')
-      } catch (error) {
-        expect(error.message).toEqual('invalid token')
-      }
-    })
-
-    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
+    it("should throw IfoodGetMerchantsError when response is invalid", async () => {
       // given
       const order = {
         status: 400,
         data: merchantsReviewsMockData,
       };
-
-      ((axios as unknown) as jest.Mock).mockResolvedValueOnce(order)
-
+      mockedClient.get.mockResolvedValueOnce(order);
       try {
         // when
-        await IfoodClientReview.getMerchantReviews(argsReviewsMerchant, 'authorized')
+        await reviewModule.getMerchantReviews(argsReviewsMerchant);
       } catch (error) {
-        expect(error.message).toEqual(
-          `get error when request getReview`,
-        )
+        let errorMessage = "Failed to do something exceptional";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        expect(errorMessage).toEqual(
+          `An error occurred requesting Merchant Reviews of ${argsReviewsMerchant.merchantId}`
+        );
       }
-    })
-  })
-
-  describe('getAllReviews', () => {
-    it('should get getAllReviews', async () => {
-      // given
-      ((axios as unknown) as jest.Mock)
-        .mockResolvedValueOnce(merchantsReviewsMockData)
-        .mockReturnValueOnce(merchantsReviewsMockData)
-
-      // when
-      const result = await IfoodClientReview.getAllReviews(argsReviewsMerchant, 0, 'authorized')
-
-      expect(result).toEqual([])
-    })
-
-    it('should get throw IfoodInvalidClientToken when token is invalid', async () => {
-      // given
-      ;((axios as unknown) as jest.Mock).mockResolvedValueOnce(
-        merchantsReviewsMockData,
-      )
-
-      try {
-        // when
-        await IfoodClientReview.getAllReviews(argsReviewsMerchant, 1, '')
-      } catch (error) {
-        expect(error.message).toEqual('invalid token')
-      }
-    })
-
-    it('should throw IfoodGetMerchantsError when response is invalid', async () => {
-      // given
-      const order = {
-        status: 400,
-        data: merchantsReviewsMockData,
-      };
-
-      ((axios as unknown) as jest.Mock).mockResolvedValueOnce(order)
-
-      try {
-        // when
-        await IfoodClientReview.getAllReviews(argsReviewsMerchant, 1, 'authorized')
-      } catch (error) {
-        expect(error.message).toEqual(
-          `get error when request getReview`,
-        )
-      }
-    })
-  })
-
-})
+    });
+  });
+});
