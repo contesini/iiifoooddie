@@ -18,7 +18,7 @@ import { IfoodOrderModule } from "./ifood/modules/order";
 import { IfoodReviewModule } from "./ifood/modules/reviews";
 import { Order } from "@ifood/types/order";
 import { Review } from "@ifood/types/reviews";
-import { addRetryInterceptor, getDefaultHeaders, sleep } from "./ifood/utils";
+import { addDateInterceptor, addRetryInterceptor, getDefaultHeaders, sleep } from "./ifood/utils";
 import Logger from "./utils/logger";
 
 export type IfoodClientConfig = {
@@ -54,6 +54,7 @@ export class IfoodClient {
       headers: getDefaultHeaders(),
     });
     addRetryInterceptor(this.instance);
+    addDateInterceptor(this.instance);
     this.authClient = new IfoodClientAuth(config.apiUrl, config.auth);
     this.authClient.loadAuthInterceptor(this.instance);
 
