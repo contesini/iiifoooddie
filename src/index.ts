@@ -9,8 +9,7 @@ import {
   MerchantSalesInput,
 } from "./ifood/types/merchant";
 
-import axios, { AxiosError, AxiosInstance } from "axios";
-import axiosRetry from "axios-retry";
+import axios, { AxiosInstance } from "axios";
 import { IfoodAuthConfig, IfoodClientAuth } from "./ifood/modules/auth";
 import { IfoodFinancialModule } from "./ifood/modules/financial";
 import { IfoodMerchantModule } from "./ifood/modules/merchants";
@@ -20,6 +19,8 @@ import { Order } from "@ifood/types/order";
 import { Review } from "@ifood/types/reviews";
 import { addRetryInterceptor, getDefaultHeaders, sleep } from "./ifood/utils";
 import Logger from "./utils/logger";
+import { IfoodCatalogModule } from "@modules/catalog";
+import { CatalogChangelogInput, CatalogChangelogResponse, MerchantCatalogsInput, ResponseCatalog, SellableItemsResponse, UnsellableItemResponse, UnsellableItemsInput } from "@ifood/types/catalog";
 
 export type IfoodClientConfig = {
   auth?: IfoodAuthConfig;
@@ -43,6 +44,8 @@ export class IfoodClient {
 
   private merchantsModule: IfoodMerchantModule;
 
+  private catalogModule: IfoodCatalogModule;
+
   constructor(ifoodClientConfig?: IfoodClientConfig) {
     const defaultConfig = {
       apiUrl: ifoodClientConfig?.apiUrl || IFOOD_MERCHANT_API_URL,
@@ -61,7 +64,7 @@ export class IfoodClient {
     this.reviewModule = new IfoodReviewModule(this.instance);
     this.merchantsModule = new IfoodMerchantModule(this.instance);
     this.financialModule = new IfoodFinancialModule(this.instance);
-
+    this.catalogModule = new IfoodCatalogModule(this.instance);
     this.logger.debug("Ifood client created");
   }
 
@@ -135,5 +138,21 @@ export class IfoodClient {
 
   public async getReview(args: MerchantReviewInput): Promise<Review> {
     return this.reviewModule.getReview(args);
+  }
+
+  public async getMerchantCatalogs(args: MerchantCatalogsInput): Promise<ResponseCatalog> {
+    return await this.catalogModule.getMerchantCatalogs(args);
+  }
+
+  public async getCatalogChangelog(args: CatalogChangelogInput): Promise<CatalogChangelogResponse> {
+    return await this.catalogModule.getCatalogChangelog(args)
+  }
+
+  public async getUnsellableItemsFromCatalog(args: UnsellableItemsInput): Promise<UnsellableItemResponse> {
+    return await this.catalogModule.getUnsellableItemsFromCatalog(args)
+  }
+
+  public async getSellableItemsFromCatalog(args: UnsellableItemsInput): Promise<SellableItemsResponse> {
+    return await this.catalogModule.getSellableItemsFromCatalog(args)
   }
 }

@@ -21,7 +21,7 @@ export interface CatalogChangelog {
 }
 
 
-export type ResponseIfoodCatalog = Catalog[]
+export type ResponseCatalog = Catalog[]
 
 export type Catalog = {
   catalogId: string
