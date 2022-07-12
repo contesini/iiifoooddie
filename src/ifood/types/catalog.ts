@@ -145,12 +145,7 @@ export interface Options {
 export interface Price {
   value: number
   originalValue: number
-  scalePrices: ScalePrices2
-}
-
-export interface ScalePrices2 {
-  minQuantity: number
-  price: number
+  scalePrices: ScalePrices
 }
 
 export interface ItemSellingOption {

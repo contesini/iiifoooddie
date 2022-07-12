@@ -1,5 +1,5 @@
 import { IfoodGetCatalogError, IfoodGetCatalogsChangelogError, IfoodGetUnsellableItemsError, IfoodGetSellableItemsError } from "../../errors";
-import { handleResponse } from "../../utils";
+import { getDateBefore, handleResponse } from "../../utils";
 import { IfoodModule } from "../module";
 import { AxiosInstance } from "axios";
 import { CatalogChangelog, CatalogChangelogInput, MerchantCatalogsInput, ResponseCatalog, SellableItemsInput, SellableItemsResponse, UnsellableItemResponse, UnsellableItemsInput } from "@ifood/types/catalog";
@@ -33,7 +33,7 @@ export class IfoodCatalogModule extends IfoodModule {
             );
             return handleResponse<ResponseCatalog>(resp);
         } catch (error) {
-            console.error(error);
+            this.logger.error(error);
         }
         throw new IfoodGetCatalogError(
             `Get error when trying to get merchant catalogs from merchant ${args.merchantId}`
@@ -47,11 +47,15 @@ export class IfoodCatalogModule extends IfoodModule {
      */
     public async getCatalogChangelog(args: CatalogChangelogInput): Promise<CatalogChangelog[]> {
         this.logger.debug(`getCatalogChangelog for id: ${args.merchantId}`);
-
+        const defaultParams = {
+            dateFrom: getDateBefore(1).toISOString(),
+            dateTo: new Date().toISOString()
+          };
+          const params = { ...defaultParams, ...args };
         try {
             const resp = await this.client.get(
                 CATALOG_CHANGELOG_GET_PATH(args.merchantId, args.catalogId),
-                { params: { startDate: args.startDate, endDate: args.endDate } }
+                { params }
             );
             return handleResponse<CatalogChangelog[]>(resp);
         } catch (error) {
