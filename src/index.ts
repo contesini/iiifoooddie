@@ -19,7 +19,7 @@ import { Order } from "@ifood/types/order";
 import { Review } from "@ifood/types/reviews";
 import { addDateInterceptor, addRetryInterceptor, getDefaultHeaders, sleep } from "./ifood/utils";
 import Logger from "./utils/logger";
-import { IfoodCatalogModule } from "@modules/catalog";
+import { IfoodCatalogModule } from "./ifood/modules/catalog";
 import { CatalogChangelogInput, CatalogChangelogResponse, MerchantCatalogsInput, ResponseCatalog, SellableItemsResponse, UnsellableItemResponse, UnsellableItemsInput } from "@ifood/types/catalog";
 
 export type IfoodClientConfig = {
