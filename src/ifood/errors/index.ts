@@ -89,3 +89,31 @@ export class IfoodGetReviewError extends Error {
     }
 }
 
+export class IfoodGetCatalogError extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = "IfoodGetCatalogError"
+    }
+}
+
+export class IfoodGetCatalogsChangelogError extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = "IfoodGetCatalogsChangelogError"
+    }
+}
+
+export class IfoodGetUnsellableItemsError extends  Error {
+    constructor(message: string) {
+        super(message)
+        this.name = "IfoodGetUnsellableItemsError"
+    }
+}
+
+export class IfoodGetSellableItemsError extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = "IfoodGetSellableItemsError"
+    }
+}
+
