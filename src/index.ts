@@ -21,6 +21,7 @@ import { addDateInterceptor, addRetryInterceptor, getDefaultHeaders, sleep } fro
 import Logger from "./utils/logger";
 import { IfoodCatalogModule } from "./ifood/modules/catalog";
 import { CatalogChangelogInput, CatalogChangelogResponse, MerchantCatalogsInput, ResponseCatalog, SellableItemsResponse, UnsellableItemResponse, UnsellableItemsInput } from "@ifood/types/catalog";
+import { Event } from "@ifood/types/polling";
 
 export type IfoodClientConfig = {
   auth?: IfoodAuthConfig;
@@ -129,6 +130,10 @@ export class IfoodClient {
 
   public async getOrderById(id: string): Promise<Order> {
     return await this.orderModule.getOrderById(id);
+  }
+
+  public async polling(): Promise<Event[]> {
+    return await this.orderModule.polling();
   }
 
   public async getMerchantReviews(

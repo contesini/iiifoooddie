@@ -82,6 +82,13 @@ export class IfoodGetOrderError extends Error {
     }
 }
 
+export class IfoodPollingError extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = "IfoodPollingError"
+    }
+}
+
 export class IfoodGetReviewError extends Error {
     constructor(message: string) {
         super(message)
