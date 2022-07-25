@@ -1,13 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import qs from "qs";
 import {
   IfoodAuthForbidden,
   IfoodInvalidClientIdError,
-  IfoodInvalidClientSecretError,
+  IfoodInvalidClientSecretError
 } from "../../errors";
 import { Authentication } from "../../types/auth";
-import { getDefaultHeaders, handleResponse } from "../../utils";
+import {
+  getDefaultAuthHeaders, handleResponse
+} from "../../utils";
 import { IfoodModule } from "../module";
-import qs from "qs";
 
 export type IfoodAuthConfig = {
   clientId?: string;
@@ -19,7 +21,7 @@ export const AUTHENTICATION_PATH = "/authentication/v1.0/oauth/token";
 export class IfoodClientAuth extends IfoodModule {
   constructor(baseURL: string, config: IfoodAuthConfig | undefined) {
     super(
-      axios.create({ baseURL, headers: getDefaultHeaders() }),
+      axios.create({ baseURL, headers: getDefaultAuthHeaders() }),
       "ifood-client-auth"
     );
     this.logger.debug(`URL: ${baseURL}`);

@@ -19,13 +19,28 @@ export function handleResponse<T>(resp: AxiosResponse<any, any>): T {
 
 export function getDefaultHeaders(): { [key: string]: string } {
   return {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  };
+}
+
+export function getDefaultAuthHeaders(): { [key: string]: string } {
+  return {
     "Content-Type": "application/x-www-form-urlencoded",
-    accept: "application/json",
+    Accept: "application/json",
   };
 }
 
 export async function sleep(ms: number) {
   return await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function splitter<T>(array: T[], size: number): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
 }
 
 export function getDateBefore(days: number): Date {

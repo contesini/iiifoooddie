@@ -17,10 +17,23 @@ import { IfoodOrderModule } from "./ifood/modules/order";
 import { IfoodReviewModule } from "./ifood/modules/reviews";
 import { Order } from "@ifood/types/order";
 import { Review } from "@ifood/types/reviews";
-import { addDateInterceptor, addRetryInterceptor, getDefaultHeaders, sleep } from "./ifood/utils";
+import {
+  addDateInterceptor,
+  addRetryInterceptor,
+  getDefaultHeaders,
+  sleep,
+} from "./ifood/utils";
 import Logger from "./utils/logger";
 import { IfoodCatalogModule } from "./ifood/modules/catalog";
-import { CatalogChangelogInput, CatalogChangelogResponse, MerchantCatalogsInput, ResponseCatalog, SellableItemsResponse, UnsellableItemResponse, UnsellableItemsInput } from "@ifood/types/catalog";
+import {
+  CatalogChangelogInput,
+  CatalogChangelogResponse,
+  MerchantCatalogsInput,
+  ResponseCatalog,
+  SellableItemsResponse,
+  UnsellableItemResponse,
+  UnsellableItemsInput,
+} from "@ifood/types/catalog";
 import { Event } from "@ifood/types/polling";
 
 export type IfoodClientConfig = {
@@ -105,7 +118,7 @@ export class IfoodClient {
   }
 
   public async getMerchantStatus(id: string) {
-    return await this.merchantsModule.getMerchantStatus(id);
+    return this.merchantsModule.getMerchantStatus(id);
   }
 
   public async getOrders(ordersIds: string[]) {
@@ -132,8 +145,36 @@ export class IfoodClient {
     return await this.orderModule.getOrderById(id);
   }
 
-  public async polling(): Promise<Event[]> {
-    return await this.orderModule.polling();
+  public async polling(storeIds?: string[]): Promise<Event[]> {
+    return await this.orderModule.polling(storeIds);
+  }
+
+  public async ack(events: Event[]): Promise<boolean> {
+    return await this.orderModule.ack(events);
+  }
+
+  public async confirmOrder(id: string): Promise<boolean> {
+    return await this.orderModule.confirmOrder(id);
+  }
+
+  public async startPreparation(id: string): Promise<boolean> {
+    return this.orderModule.startPreparation(id);
+  }
+
+  public async readyToPickup(id: string): Promise<boolean> {
+    return this.orderModule.readyToPickup(id);
+  }
+
+  public async dispatchOrder(id: string): Promise<boolean> {
+    return this.orderModule.dispatchOrder(id);
+  }
+
+  public async acceptCancellation(id: string): Promise<boolean> {
+    return this.orderModule.acceptCancellation(id);
+  }
+
+  public async denyCancellation(id: string): Promise<boolean> {
+    return this.orderModule.denyCancellation(id);
   }
 
   public async getMerchantReviews(
@@ -146,19 +187,27 @@ export class IfoodClient {
     return this.reviewModule.getReview(args);
   }
 
-  public async getMerchantCatalogs(args: MerchantCatalogsInput): Promise<ResponseCatalog> {
+  public async getMerchantCatalogs(
+    args: MerchantCatalogsInput
+  ): Promise<ResponseCatalog> {
     return await this.catalogModule.getMerchantCatalogs(args);
   }
 
-  public async getCatalogChangelog(args: CatalogChangelogInput): Promise<CatalogChangelogResponse> {
-    return await this.catalogModule.getCatalogChangelog(args)
+  public async getCatalogChangelog(
+    args: CatalogChangelogInput
+  ): Promise<CatalogChangelogResponse> {
+    return await this.catalogModule.getCatalogChangelog(args);
   }
 
-  public async getUnsellableItemsFromCatalog(args: UnsellableItemsInput): Promise<UnsellableItemResponse> {
-    return await this.catalogModule.getUnsellableItemsFromCatalog(args)
+  public async getUnsellableItemsFromCatalog(
+    args: UnsellableItemsInput
+  ): Promise<UnsellableItemResponse> {
+    return await this.catalogModule.getUnsellableItemsFromCatalog(args);
   }
 
-  public async getSellableItemsFromCatalog(args: UnsellableItemsInput): Promise<SellableItemsResponse> {
-    return await this.catalogModule.getSellableItemsFromCatalog(args)
+  public async getSellableItemsFromCatalog(
+    args: UnsellableItemsInput
+  ): Promise<SellableItemsResponse> {
+    return await this.catalogModule.getSellableItemsFromCatalog(args);
   }
 }

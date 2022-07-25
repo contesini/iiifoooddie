@@ -1,6 +1,7 @@
 import {
   getDateBefore,
   handleDates,
+  splitter,
   toDate,
 } from "../../../../src/ifood/utils";
 
@@ -46,15 +47,38 @@ describe("Utils", () => {
       expect(dateBefore).toEqual(check);
     });
   });
-//   describe("Interceptors", () => {
-//     it("should add retry interceptor", () => {
-//       addRetryInterceptor(mockedClient);
+  describe("splitter", () => {
+    const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-//       mockedClient.get.mockImplementationOnce(async () => "test");
+    it("should split array of five", () => {
+      const result = [
+        [1, 2, 3, 4, 5],
+        [6, 7, 8, 9, 10],
+      ];
+      const splitted = splitter(array, 5);
+      expect(splitted).toEqual(result);
+    });
+    it("should split array of three", () => {
+      const result = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]];
+      const splitted = splitter(array, 3);
+      expect(splitted).toEqual(result);
+    });
+    it("should split empty array", () => {
+      const result: string[] = [];
+      const array: string[] = [];
+      const splitted = splitter(array, 3);
+      expect(splitted).toEqual(result);
+    });
+  });
+  //   describe("Interceptors", () => {
+  //     it("should add retry interceptor", () => {
+  //       addRetryInterceptor(mockedClient);
 
-//       mockedClient.get("/test");
+  //       mockedClient.get.mockImplementationOnce(async () => "test");
 
-//       expect(mockRequestCallback).toBeInstanceOf(Function);
-//     });
-//   });
+  //       mockedClient.get("/test");
+
+  //       expect(mockRequestCallback).toBeInstanceOf(Function);
+  //     });
+  //   });
 });
