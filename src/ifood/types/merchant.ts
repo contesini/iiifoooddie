@@ -148,7 +148,7 @@ export type ChargeCancellations = {
   transactionDate: Date
   amount: number;
   orderId: string;
-  orderDate: Date
+  orderDate: Date;
 }
 
 export type SalesAdjustments = {

@@ -20,22 +20,22 @@ export default class Logger {
 
   public log(level: any, message: any): void {
     if (ENV === "test") return;
-    this.logger.log({level, message});
+    this.logger.log({ level, message });
   }
 
   public info(message: any): void {
     if (ENV === "test") return;
-    this.logger.log({level: "info", message});
+    this.logger.log({ level: "info", message });
   }
 
   public debug(message: any): void {
     if (ENV === "test") return;
-    this.logger.log({level: "debug", message});
+    this.logger.log({ level: "debug", message });
   }
 
   public error(message: any): void {
     if (ENV === "test") return;
-    this.logger.log({level: "error", message});
+    this.logger.log({ level: "error", message });
   }
 
 }
